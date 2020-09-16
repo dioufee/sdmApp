@@ -3,33 +3,32 @@ Untitled
 Aboubacar HEMA
 16/09/2020
 
-## R Markdown
+  - [Installing R, **sdmApp** and other
+    packages](#installing-r-sdmapp-and-other-packages)
 
-This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see <http://rmarkdown.rstudio.com>.
+## Installing R, **sdmApp** and other packages
 
-When you click the **Knit** button a document will be generated that
-includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
+This guide is based on the software package **sdmApp**, which is an
+add-on package for the statistical software R. Both R and **sdmApp**, as
+well as other R packages, are freely available from the CRAN
+(Comprehensive R Archive Network) website for Linux, Mac and Windows
+(<http://cran.r-project.org>). This website also offers descriptions of
+packages. Besides the standard version of R, there is a more
+user-friendly user interface for R: RStudio. RStudio is also freely
+available for Linux, Mac and Windows (<http://www.rstudio.com>). The
+**sdmApp** package is dependent on (i.e., uses) other R packages that
+must be installed on your computer before using **sdmApp**. Those will
+automatically be installed when installing **sdmApp**. For some
+functionalities, we use still other packages (such as foreign for
+reading data and some graphical packages). If so, this is indicated in
+the appropriate section in this guide. R, RStudio, the **sdmApp**
+package and its dependencies and other packages have regular updates. It
+is strongly recommended to regularly check for updates: this requires
+installing a new version for an update of R; with the update.packages()
+command or using the menu options in R or RStudio one can update the
+installed packages.
 
-``` r
-summary(cars)
-```
-
-    ##      speed           dist       
-    ##  Min.   : 4.0   Min.   :  2.00  
-    ##  1st Qu.:12.0   1st Qu.: 26.00  
-    ##  Median :15.0   Median : 36.00  
-    ##  Mean   :15.4   Mean   : 42.98  
-    ##  3rd Qu.:19.0   3rd Qu.: 56.00  
-    ##  Max.   :25.0   Max.   :120.00
-
-## Including Plots
-
-You can also embed plots, for example:
-
-![](sdmApp_github_files/figure-gfm/pressure-1.png)<!-- -->
-
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.
+When starting R or RStudio, it is necessary to specify each time which
+packages are being used by loading those. This loading of packages can
+be done either with the **library()** or the **require()** function.
+Both options are illustrated in

@@ -24,9 +24,7 @@ When starting R or RStudio, it is necessary to specify each time which packages 
 library(sdmApp)
 ```
 
-***
-A footnote [^1] 
-[^1]: Here is the footnote. 
+
 
 ```{r cars, echo=FALSE, paged.print=TRUE}
 numericInput("n",      "How many cars?", 5) 

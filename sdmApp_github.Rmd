@@ -2,32 +2,20 @@
 title: "Untitled"
 author: "Aboubacar HEMA"
 date: "16/09/2020"
-output: github_document
-           # html_preview: true
-           # toc: true
-           # toc_depth: 2
+output: 
+  github_document:
+           html_preview: true
+           toc: true
+           toc_depth: 2
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Installing R, **sdmApp** and other packages
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This guide is based on the software package **sdmApp**, which is an add-on package for the statistical software R. Both R and **sdmApp**, as well as other R packages, are freely available from the CRAN (Comprehensive R Archive Network) website for Linux, Mac and Windows (<http://cran.r-project.org>). This website also offers descriptions of packages. Besides the standard version of R, there is a more user-friendly user interface for R: RStudio. RStudio is also freely available for Linux, Mac and Windows (<http://www.rstudio.com>). The **sdmApp** package is dependent on (i.e., uses) other R packages that must be installed on your computer before using **sdmApp**. Those will automatically be installed when installing **sdmApp**. For some functionalities, we use still other packages (such as foreign for reading data and some graphical packages). If so, this is indicated in the appropriate section in this guide. R, RStudio, the **sdmApp** package and its dependencies and other packages have regular updates. It is strongly recommended to regularly check for updates: this requires installing a new version for an update of R; with the update.packages() command or using the menu options in R or RStudio one can update the installed packages.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+When starting R or RStudio, it is necessary to specify each time which packages are being used by loading those. This loading of packages can be done either with the **library()** or the **require()** function. Both options are illustrated in
