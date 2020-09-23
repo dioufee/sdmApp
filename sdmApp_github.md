@@ -3,53 +3,9 @@ Species Distribution Models Application (**sdmApp**)
 Aboubacar HEMA, Babacar NDAO, Louise LEROUX, Abdoul Aziz DIOUF
 16/09/2020
 
-  - [sdmApp](#sdmapp)
-      - [Features](#features)
-      - [Installing R, **sdmApp** and other
-        packages](#installing-r-sdmapp-and-other-packages)
-  - [Help/About](#helpabout)
-      - [sdmgui (species distribution models graphical user
-        interface)](#sdmgui-species-distribution-models-graphical-user-interface)
-  - [Data Upload](#data-upload)
-      - [Testdata/internal data](#testdatainternal-data)
-      - [SPSS-file (.sav)](#spss-file-.sav)
-      - [SAS-file (.sasb7dat)](#sas-file-.sasb7dat)
-      - [CSV-file (.csv, .txt)](#csv-file-.csv-.txt)
-          - [Select the field separator (Comma, Semicolon,
-            Tab)](#select-the-field-separator-comma-semicolon-tab)
-      - [STATA-file (.dta)](#stata-file-.dta)
-  - [Data Preparation](#data-preparation)
-      - [View Data](#view-data)
-          - [Species Data](#species-data)
-          - [Species distribution](#species-distribution)
-      - [Spatial Analysis](#spatial-analysis)
-          - [Correlation between rasters
-            (predictors)](#correlation-between-rasters-predictors)
-          - [ENFA](#enfa)
-  - [Spatial blocking](#spatial-blocking)
-      - [Barchart](#barchart)
-      - [Mapplot](#mapplot)
-      - [Range](#range)
-      - [Variogram](#variogram)
-  - [Modeling](#modeling)
-      - [Profils method](#profils-method)
-          - [Bioclim](#bioclim)
-          - [Domain](#domain)
-          - [Mahalanobis distance](#mahalanobis-distance)
-      - [Classical regression models](#classical-regression-models)
-          - [GLM](#glm)
-          - [GAM](#gam)
-      - [Machine learning methods](#machine-learning-methods)
-          - [MaxEnt](#maxent)
-          - [BRT](#brt)
-          - [Random Forest](#random-forest)
-          - [SVM](#svm)
-      - [Combining model predictions](#combining-model-predictions)
-  - [R-code](#r-code)
-
 # sdmApp
 
-## Features
+image: ![caption](sticker_vstone_07_1.png) \#\# Features
 
 ## Installing R, **sdmApp** and other packages
 
