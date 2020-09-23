@@ -81,7 +81,7 @@ Both options are illustrated in.
 # Help/About
 
 This is the first page that is shown once the graphical user interface
-has been started using sdcApp() after loading package sdcMicro. On this
+has been started using sdmApp() after loading package sdmApp. On this
 page, the user is presented the information on how to open this package
 vignette which contains extensive information on how to use the GUI.
 Furthermore, in section Getting started, users are advised to either
@@ -128,7 +128,7 @@ microdata below.
 This screen allows the user to select data.frames that are available in
 the users-workspace when starting the user interface. Two test-data sets
 (testdata and testdata2, information on which is available from
-?testdata) that are included in sdcMicro are always available. Pressing
+?testdata) that are included in sdmApp are always available. Pressing
 the action button below the drop-down selection input will make the GUI
 use the selected data frame.
 

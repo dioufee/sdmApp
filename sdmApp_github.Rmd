@@ -29,7 +29,7 @@ This guide is based on the software package **sdmApp**, which is an add-on packa
 When starting R or RStudio, it is necessary to specify each time which packages are being used by loading those. This loading of packages can be done either with the **library()** or the **require()** function. Both options are illustrated in.
 
 # Help/About
-This is the first page that is shown once the graphical user interface has been started using sdcApp() after loading package sdcMicro. On this page, the user is presented the information on how to open this package vignette which contains extensive information on how to use the GUI. Furthermore, in section Getting started, users are advised to either upload microdata or to upload a previously saved problem instance. Clicking on the relevant buttons brings the user automatically to the page from which the desired functionality is available.
+This is the first page that is shown once the graphical user interface has been started using sdmApp() after loading package sdmApp. On this page, the user is presented the information on how to open this package vignette which contains extensive information on how to use the GUI. Furthermore, in section Getting started, users are advised to either upload microdata or to upload a previously saved problem instance. Clicking on the relevant buttons brings the user automatically to the page from which the desired functionality is available.
 
 ## sdmgui (species distribution models graphical user interface)
 
@@ -45,7 +45,7 @@ We note that the content of this page changes depending on whether microdata hav
 
 ## Testdata/internal data
 
-This screen allows the user to select data.frames that are available in the users-workspace when starting the user interface. Two test-data sets (testdata and testdata2, information on which is available from ?testdata) that are included in sdcMicro are always available. Pressing the action button below the drop-down selection input will make the GUI use the selected data frame.
+This screen allows the user to select data.frames that are available in the users-workspace when starting the user interface. Two test-data sets (testdata and testdata2, information on which is available from ?testdata) that are included in sdmApp are always available. Pressing the action button below the drop-down selection input will make the GUI use the selected data frame.
 
 ## SPSS-file (.sav)
 
