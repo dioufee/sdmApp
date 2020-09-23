@@ -6,8 +6,8 @@ output:
   github_document:
            html_preview: true
            toc: false
-           fig_width: 1
-           fig_height: 1
+           fig_width: 5
+           fig_height: 5
   # html_document:
   #   toc: true
   #   number_sections : true
@@ -22,6 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 image:
 ![caption](sticker_vstone_07_1.png)
+
 ## Features
 
 
