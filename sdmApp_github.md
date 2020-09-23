@@ -1,6 +1,6 @@
 Species Distribution Models Application (**sdmApp**)
 ================
-Aboubacar HEMA
+Aboubacar HEMA, Babacar NDAO, Louise LEROUX, Abdoul Aziz DIOUF
 16/09/2020
 
   - [sdmApp](#sdmapp)

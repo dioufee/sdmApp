@@ -1,6 +1,6 @@
 ---
 title: "Species Distribution Models Application (**sdmApp**)"
-author: "Aboubacar HEMA"
+author: "Aboubacar HEMA, Babacar NDAO, Louise LEROUX, Abdoul Aziz DIOUF"
 date: "16/09/2020"
 output: 
   github_document:
