@@ -3,13 +3,13 @@ title: "Species Distribution Models Application (**sdmApp**)"
 author: "Aboubacar HEMA"
 date: "16/09/2020"
 output: 
-  # github_document:
-  #          html_preview: true
-  #          toc: true
-  #          #toc_depth: 2
-  html_document:
-    toc: true
-    number_sections : true
+  github_document:
+           html_preview: true
+           toc: true
+           #toc_depth: 2
+  # html_document:
+  #   toc: true
+  #   number_sections : true
 
 ---
 

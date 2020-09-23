@@ -5,8 +5,8 @@ Aboubacar HEMA
 
   - [sdmApp](#sdmapp)
       - [Features](#features)
-  - [Installing R, **sdmApp** and other
-    packages](#installing-r-sdmapp-and-other-packages)
+      - [Installing R, **sdmApp** and other
+        packages](#installing-r-sdmapp-and-other-packages)
   - [Help/About](#helpabout)
       - [sdmgui (species distribution models graphical user
         interface)](#sdmgui-species-distribution-models-graphical-user-interface)
@@ -15,10 +15,17 @@ Aboubacar HEMA
       - [SPSS-file (.sav)](#spss-file-.sav)
       - [SAS-file (.sasb7dat)](#sas-file-.sasb7dat)
       - [CSV-file (.csv, .txt)](#csv-file-.csv-.txt)
+          - [Select the field separator (Comma, Semicolon,
+            Tab)](#select-the-field-separator-comma-semicolon-tab)
       - [STATA-file (.dta)](#stata-file-.dta)
   - [Data Preparation](#data-preparation)
       - [View Data](#view-data)
+          - [Species Data](#species-data)
+          - [Species distribution](#species-distribution)
       - [Spatial Analysis](#spatial-analysis)
+          - [Correlation between rasters
+            (predictors)](#correlation-between-rasters-predictors)
+          - [ENFA](#enfa)
   - [Spatial blocking](#spatial-blocking)
       - [Barchart](#barchart)
       - [Mapplot](#mapplot)
@@ -26,14 +33,23 @@ Aboubacar HEMA
       - [Variogram](#variogram)
   - [Modeling](#modeling)
       - [Profils method](#profils-method)
+          - [Bioclim](#bioclim)
+          - [Domain](#domain)
+          - [Mahalanobis distance](#mahalanobis-distance)
       - [Classical regression models](#classical-regression-models)
+          - [GLM](#glm)
+          - [GAM](#gam)
       - [Machine learning methods](#machine-learning-methods)
+          - [MaxEnt](#maxent)
+          - [BRT](#brt)
+          - [Random Forest](#random-forest)
+          - [SVM](#svm)
       - [Combining model predictions](#combining-model-predictions)
   - [R-code](#r-code)
 
-## sdmApp
+# sdmApp
 
-### Features
+## Features
 
 ## Installing R, **sdmApp** and other packages
 
@@ -62,7 +78,7 @@ packages are being used by loading those. This loading of packages can
 be done either with the **library()** or the **require()** function.
 Both options are illustrated in.
 
-## Help/About
+# Help/About
 
 This is the first page that is shown once the graphical user interface
 has been started using sdcApp() after loading package sdcMicro. On this
@@ -73,7 +89,7 @@ upload microdata or to upload a previously saved problem instance.
 Clicking on the relevant buttons brings the user automatically to the
 page from which the desired functionality is available.
 
-### sdmgui (species distribution models graphical user interface)
+## sdmgui (species distribution models graphical user interface)
 
 This graphical user interface of“,code(”sdmgui“),” offers the
 possibility to run 10 state-of-the-art modeling techniques to describe
@@ -92,7 +108,7 @@ the“,code(”ensae“),”package. The vignette is available
 on“,tags$a(”GitHub pages“, href=”<https://github.com/Abson-dev>“,
 target=”\_blank")
 
-## Data Upload
+# Data Upload
 
 On this page, the user can either upload data sets stored as files on
 the hard drive into the GUI or to select data frames that exist in the
@@ -107,7 +123,7 @@ described in chapter Modify microdata. In the latter case, the user is
 asked to upload data in the GUI. This is described in chapter Upload
 microdata below.
 
-### Testdata/internal data
+## Testdata/internal data
 
 This screen allows the user to select data.frames that are available in
 the users-workspace when starting the user interface. Two test-data sets
@@ -116,7 +132,7 @@ the users-workspace when starting the user interface. Two test-data sets
 the action button below the drop-down selection input will make the GUI
 use the selected data frame.
 
-### SPSS-file (.sav)
+## SPSS-file (.sav)
 
 Here users can opt to upload a file exported from SPSS. Users can change
 the options if character vectors should be automatically converted to
@@ -124,7 +140,7 @@ factors and if variables that contain only missing-values (‘NA’) only
 should be dropped. By clicking on the Browse button the user needs to
 select a sav-file on disk which he wants to upload.
 
-### SAS-file (.sasb7dat)
+## SAS-file (.sasb7dat)
 
 Here users can opt to upload a file exported from SAS. Users can change
 the options if character vectors should be automatically converted to
@@ -132,7 +148,7 @@ factors and if variables that contain only missing-values (‘NA’) only
 should be dropped. By clicking on the Browse button the user needs to
 select a sas7bdat-file on disk which he wants to upload.
 
-### CSV-file (.csv, .txt)
+## CSV-file (.csv, .txt)
 
 Here users can opt to upload a text file where variables are separated
 by some characters. Typically these data would be exported from software
@@ -145,7 +161,7 @@ as character (text), the character " is ignored as quoting character and
 not imported. By clicking on the Browse button the user needs to select
 a txt or csv-file on disk which he wants to upload.
 
-#### Select the field separator (Comma, Semicolon, Tab)
+### Select the field separator (Comma, Semicolon, Tab)
 
 This option is only available when a text/csv file is imported. The
 radio button input has three possible choices, Comma (the default value)
@@ -156,7 +172,7 @@ in the input file.
   - Semicolon: the ; character is used as separator
   - Tab: tabulators ( are used as separators
 
-### STATA-file (.dta)
+## STATA-file (.dta)
 
 Here users can opt to upload a file exported from Stata. Users can
 change the options if character vectors should be automatically
@@ -164,56 +180,56 @@ converted to factors and if variables that contain only missing-values
 (‘NA’) only should be dropped. By clicking on the Browse button the
 user needs to select a dta-file on disk which he wants to upload.
 
-## Data Preparation
+# Data Preparation
 
-### View Data
+## View Data
 
-#### Species Data
+### Species Data
 
-#### Species distribution
+### Species distribution
 
-### Spatial Analysis
+## Spatial Analysis
 
-#### Correlation between rasters (predictors)
+### Correlation between rasters (predictors)
 
-#### ENFA
+### ENFA
 
-## Spatial blocking
+# Spatial blocking
 
-### Barchart
+## Barchart
 
-### Mapplot
+## Mapplot
 
-### Range
+## Range
 
-### Variogram
+## Variogram
 
-## Modeling
+# Modeling
 
-### Profils method
+## Profils method
 
-#### Bioclim
+### Bioclim
 
-#### Domain
+### Domain
 
-#### Mahalanobis distance
+### Mahalanobis distance
 
-### Classical regression models
+## Classical regression models
 
-#### GLM
+### GLM
 
-#### GAM
+### GAM
 
-### Machine learning methods
+## Machine learning methods
 
-#### MaxEnt
+### MaxEnt
 
-#### BRT
+### BRT
 
-#### Random Forest
+### Random Forest
 
-#### SVM
+### SVM
 
-### Combining model predictions
+## Combining model predictions
 
-## R-code
+# R-code
