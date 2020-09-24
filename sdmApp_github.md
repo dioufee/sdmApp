@@ -35,7 +35,7 @@ some of these pages will be empty and their content changes once data
 
 <!--![caption](sticker_vstone_07_1.png)-->
 
-# Help/About <img src="image1.png" align="right" width="120" />
+# Help/About <img src="image1.png" align="right" width="500" />
 
 This is the first page that is shown once the graphical user interface
 has been started using sdmApp() after loading package sdmApp. On this
