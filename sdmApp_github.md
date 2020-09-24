@@ -32,39 +32,34 @@ selected from the navigation bar at the top of the screen. Initially,
 some of these pages will be empty and their content changes once data
 (both raster and species occurence files) have been uploaded.
 
-
 <!--![caption](sticker_vstone_07_1.png)-->
 
 # Help/About <img src="image1.png" align="right" width="500" />
 
 This is the first page that is shown once the graphical user interface
 has been started using sdmApp() after loading package sdmApp. On this
-page, the user is presented the information on how to open this package
-vignette which contains extensive information on how to use the GUI.
+page, the user is presented the information about the package and
+contact or feedback.
 
 # Data Upload
 
 On this page, the user can either upload data sets stored as files on
 the hard drive into the GUI or to select data frames that exist in the
 users’ workspace before working the graphical user interface was
-started. This allows to perform common data manipulation steps directly
-in R before continuing to anonymize the dataset using the GUI.
+started.
 
-We note that the content of this page changes depending on whether
-microdata have already been uploaded or not. In the former case, the
-user can view, modify or reset variables from the uploaded dataset as
-described in chapter Modify microdata. In the latter case, the user is
-asked to upload data in the GUI. This is described in chapter Upload
-microdata below.
+We note that the content of this page changes depending on whether data
+have already been uploaded or not. This is described in chapter Upload
+data below.
 
-## Testdata/internal data
+## Select data source
 
-This screen allows the user to select data.frames that are available in
-the users-workspace when starting the user interface. Two test-data sets
-(testdata and testdata2, information on which is available from
-?testdata) that are included in sdmApp are always available. Pressing
-the action button below the drop-down selection input will make the GUI
-use the selected data frame.
+### Testdata/internal data
+
+This screen allows the user to select data that are included in sdmApp.
+Pressing the action button below the drop-down selection input will make
+the GUI use the selected data.In Niakhar data are included rasters and
+species occurence.
 
 ## SPSS-file (.sav)
 
