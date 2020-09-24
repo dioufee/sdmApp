@@ -6,8 +6,7 @@ output:
   github_document:
            html_preview: true
            toc: false
-           fig_width: 5
-           fig_height: 5
+           
   # html_document:
   #   toc: true
   #   number_sections : true
@@ -18,20 +17,19 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 # sdmApp
 
-image:
 ![caption](sticker_vstone_07_1.png)
+
+
 
 ## Features
 
 
 ## Installing R, **sdmApp** and other packages
 
-This guide is based on the software package **sdmApp**, which is an add-on package for the statistical software R. Both R and **sdmApp**, as well as other R packages, are freely available from the CRAN (Comprehensive R Archive Network) website for Linux, Mac and Windows (<http://cran.r-project.org>). This website also offers descriptions of packages. Besides the standard version of R, there is a more user-friendly user interface for R: RStudio. RStudio is also freely available for Linux, Mac and Windows (<http://www.rstudio.com>). The **sdmApp** package is dependent on (i.e., uses) other R packages that must be installed on your computer before using **sdmApp**. Those will automatically be installed when installing **sdmApp**. For some functionalities, we use still other packages (such as foreign for reading data and some graphical packages). If so, this is indicated in the appropriate section in this guide. R, RStudio, the **sdmApp** package and its dependencies and other packages have regular updates. It is strongly recommended to regularly check for updates: this requires installing a new version for an update of R; with the update.packages() command or using the menu options in R or RStudio one can update the installed packages.
-
-
-When starting R or RStudio, it is necessary to specify each time which packages are being used by loading those. This loading of packages can be done either with the **library()** or the **require()** function. Both options are illustrated in.
+This guide is based on the software package **sdmApp**, which is an add-on package for the statistical software R. Both R and **sdmApp**, as well as other R packages, are freely available from the CRAN (Comprehensive R Archive Network) website for Linux, Mac and Windows (<http://cran.r-project.org>). This website also offers descriptions of packages. Besides the standard version of R, there is a more user-friendly user interface for R: RStudio. RStudio is also freely available for Linux, Mac and Windows (<http://www.rstudio.com>). The **sdmApp** package is dependent on (i.e., uses) other R packages that must be installed on your computer before using **sdmApp**. Those will automatically be installed when installing **sdmApp**. For some functionalities, we use still other packages (such as dismo, CENFA, etc). If so, this is indicated in the appropriate section in this guide. R, RStudio, the **sdmApp** package and its dependencies and other packages have regular updates. It is strongly recommended to regularly check for updates.
 
 # Help/About
 This is the first page that is shown once the graphical user interface has been started using sdmApp() after loading package sdmApp. On this page, the user is presented the information on how to open this package vignette which contains extensive information on how to use the GUI. Furthermore, in section Getting started, users are advised to either upload microdata or to upload a previously saved problem instance. Clicking on the relevant buttons brings the user automatically to the page from which the desired functionality is available.

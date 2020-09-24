@@ -5,7 +5,9 @@ Aboubacar HEMA, Babacar NDAO, Louise LEROUX, Abdoul Aziz DIOUF
 
 # sdmApp
 
-image: ![caption](sticker_vstone_07_1.png) \#\# Features
+![caption](sticker_vstone_07_1.png)
+
+## Features
 
 ## Installing R, **sdmApp** and other packages
 
@@ -20,19 +22,11 @@ available for Linux, Mac and Windows (<http://www.rstudio.com>). The
 **sdmApp** package is dependent on (i.e., uses) other R packages that
 must be installed on your computer before using **sdmApp**. Those will
 automatically be installed when installing **sdmApp**. For some
-functionalities, we use still other packages (such as foreign for
-reading data and some graphical packages). If so, this is indicated in
-the appropriate section in this guide. R, RStudio, the **sdmApp**
-package and its dependencies and other packages have regular updates. It
-is strongly recommended to regularly check for updates: this requires
-installing a new version for an update of R; with the update.packages()
-command or using the menu options in R or RStudio one can update the
-installed packages.
-
-When starting R or RStudio, it is necessary to specify each time which
-packages are being used by loading those. This loading of packages can
-be done either with the **library()** or the **require()** function.
-Both options are illustrated in.
+functionalities, we use still other packages (such as dismo, CENFA,
+etc). If so, this is indicated in the appropriate section in this guide.
+R, RStudio, the **sdmApp** package and its dependencies and other
+packages have regular updates. It is strongly recommended to regularly
+check for updates.
 
 # Help/About
 
