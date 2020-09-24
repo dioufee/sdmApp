@@ -33,33 +33,21 @@ Package *sdmApp* contains a shiny app that should help users that are non-expert
 
 We now describe the features of the interactive graphical user interface in detail. The GUI is separated into 6 main categories, which can be selected from the navigation bar at the top of the screen. Initially, some of these pages will be empty and their content changes once data (both raster and species occurence files) have been uploaded.
 
-
 <!--![caption](sticker_vstone_07_1.png)--> 
-
-
-
-
-## Features
-
-
-## Installing R, **sdmApp** and other packages
-
-This guide is based on the software package **sdmApp**, which is an add-on package for the statistical software R. Both R and **sdmApp**, as well as other R packages, are freely available from the CRAN (Comprehensive R Archive Network) website for Linux, Mac and Windows (<http://cran.r-project.org>). This website also offers descriptions of packages. Besides the standard version of R, there is a more user-friendly user interface for R: RStudio. RStudio is also freely available for Linux, Mac and Windows (<http://www.rstudio.com>). The **sdmApp** package is dependent on (i.e., uses) other R packages that must be installed on your computer before using **sdmApp**. Those will automatically be installed when installing **sdmApp**. For some functionalities, we use still other packages (such as dismo, CENFA, etc). If so, this is indicated in the appropriate section in this guide. R, RStudio, the **sdmApp** package and its dependencies and other packages have regular updates. It is strongly recommended to regularly check for updates.
 
 # Help/About
 
-This is the first page that is shown once the graphical user interface has been started using sdmApp() after loading package sdmApp. On this page, the user is presented the information on how to open this package vignette which contains extensive information on how to use the GUI. 
-
+This is the first page that is shown once the graphical user interface has been started using sdmApp() after loading package sdmApp. On this page, the user is presented the information about the package and contact or feedback. 
                                         
 # Data Upload
 
-On this page, the user can either upload data sets stored as files on the hard drive into the GUI or to select data frames that exist in the users' workspace before working the graphical user interface was started. This allows to perform common data manipulation steps directly in R before continuing to anonymize the dataset using the GUI.
+On this page, the user can either upload data sets stored as files on the hard drive into the GUI or to select data frames that exist in the users' workspace before working the graphical user interface was started.
 
-We note that the content of this page changes depending on whether microdata have already been uploaded or not. In the former case, the user can view, modify or reset variables from the uploaded dataset as described in chapter Modify microdata. In the latter case, the user is asked to upload data in the GUI. This is described in chapter Upload microdata below.
+We note that the content of this page changes depending on whether data have already been uploaded or not. This is described in chapter Upload data below.
 
 ## Testdata/internal data
 
-This screen allows the user to select data.frames that are available in the users-workspace when starting the user interface. Two test-data sets (testdata and testdata2, information on which is available from ?testdata) that are included in sdmApp are always available. Pressing the action button below the drop-down selection input will make the GUI use the selected data frame.
+This screen allows the user to select data that are included in sdmApp. Pressing the action button below the drop-down selection input will make the GUI use the selected data.In Niakhar data are included rasters and species occurence.
 
 ## SPSS-file (.sav)
 

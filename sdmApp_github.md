@@ -34,27 +34,6 @@ some of these pages will be empty and their content changes once data
 
 <!--![caption](sticker_vstone_07_1.png)-->
 
-## Features
-
-## Installing R, **sdmApp** and other packages
-
-This guide is based on the software package **sdmApp**, which is an
-add-on package for the statistical software R. Both R and **sdmApp**, as
-well as other R packages, are freely available from the CRAN
-(Comprehensive R Archive Network) website for Linux, Mac and Windows
-(<http://cran.r-project.org>). This website also offers descriptions of
-packages. Besides the standard version of R, there is a more
-user-friendly user interface for R: RStudio. RStudio is also freely
-available for Linux, Mac and Windows (<http://www.rstudio.com>). The
-**sdmApp** package is dependent on (i.e., uses) other R packages that
-must be installed on your computer before using **sdmApp**. Those will
-automatically be installed when installing **sdmApp**. For some
-functionalities, we use still other packages (such as dismo, CENFA,
-etc). If so, this is indicated in the appropriate section in this guide.
-R, RStudio, the **sdmApp** package and its dependencies and other
-packages have regular updates. It is strongly recommended to regularly
-check for updates.
-
 # Help/About
 
 This is the first page that is shown once the graphical user interface
