@@ -1,3 +1,3 @@
 # sdmApp
  Species Distribution Models Application
-![caption](Logo_sdmApp.png)
+<img src="Logo_sdmApp.png" align="right" width="120" />
