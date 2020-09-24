@@ -1,8 +1,8 @@
 # sdmApp <img src="Logo_sdmApp.png" align="right" width="120" />
  Species Distribution Models Application
 
-<!--[![Build Status](https://travis-ci.org/rvalavi/blockCV.svg?branch=master)](https://travis-ci.org/rvalavi/blockCV)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/rvalavi/blockCV?branch=master&svg=true)](https://github.com/Abson-dev/sdmApp/commits/master/sdmApp_github.md)-->
+<!--[![Build Status](https://travis-ci.org/rvalavi/blockCV.svg?branch=master)](https://travis-ci.org/rvalavi/blockCV)-->
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/rvalavi/blockCV?branch=master&svg=true)](https://github.com/Abson-dev/sdmApp/commits/master/sdmApp_github.md)
 <!--[![codecov](https://codecov.io/gh/rvalavi/blockCV/branch/master/graph/badge.svg)](https://codecov.io/gh/rvalavi/blockCV)
 [![CRAN version](https://www.r-pkg.org/badges/version/blockCV)](https://CRAN.R-project.org/package=blockCV)
 [![total](http://cranlogs.r-pkg.org/badges/grand-total/blockCV)](https://www.rpackages.io/package/blockCV) -->
