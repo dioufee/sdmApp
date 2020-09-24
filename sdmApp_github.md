@@ -34,29 +34,6 @@ This is the first page that is shown once the graphical user interface
 has been started using sdmApp() after loading package sdmApp. On this
 page, the user is presented the information on how to open this package
 vignette which contains extensive information on how to use the GUI.
-Furthermore, in section Getting started, users are advised to either
-upload microdata or to upload a previously saved problem instance.
-Clicking on the relevant buttons brings the user automatically to the
-page from which the desired functionality is available.
-
-## sdmgui (species distribution models graphical user interface)
-
-This graphical user interface of“,code(”sdmgui“),” offers the
-possibility to run 10 state-of-the-art modeling techniques to describe
-and model the relationships between a given species and its environment.
-It is an attempt to define the ecological niche of a particular species
-using environmental variables (temperature, precipitation, …) with the
-potential use of making, for instance, future projections under climate
-and land use change scenarios. Although it has been mostly developed for
-ecologists that aim to predict species distribution, biomod2 can also be
-used to model any binomial data (for instance, gene, markers,
-ecosystem…) in function of any explanatory variables Even if you are
-not an expert in the“,code(”R“),”programming language. Detailed
-information on how to use this graphical user-interface (GUI) can be
-found in a tutorial (a so-called vignette) that is included in
-the“,code(”ensae“),”package. The vignette is available
-on“,tags$a(”GitHub pages“, href=”<https://github.com/Abson-dev>“,
-target=”\_blank")
 
 # Data Upload
 
