@@ -18,7 +18,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# sdmApp
+# Introduction and Main Features
+
+Package *sdmApp* contains a shiny app that should help users that are non-experts in R (command-line) to apply species distribution models techniques. For this reason, users may upload data (rasters and spcies occurence) files from different software products into the app and then start  by working within the interactive, graphical user interface (GUI). This document will give an overview of the functionalities of the graphical user interface which can be started with sdmApp(). The main functionality of the GUI is:
 
 ![caption](sticker_vstone_07_1.png)
 
