@@ -45,7 +45,9 @@ On this page, the user can either upload data sets stored as files on the hard d
 
 We note that the content of this page changes depending on whether data have already been uploaded or not. This is described in chapter Upload data below.
 
-## Testdata/internal data
+## Select data source
+
+### Testdata/internal data
 
 This screen allows the user to select data that are included in sdmApp. Pressing the action button below the drop-down selection input will make the GUI use the selected data.In Niakhar data are included rasters and species occurence.
 
