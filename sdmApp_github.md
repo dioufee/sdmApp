@@ -14,17 +14,25 @@ This document will give an overview of the functionalities of the
 graphical user interface which can be started with sdmApp(). The main
 functionality of the GUI is:
 
-``` 
-    - Uploading data (raster and species occurence files)
-    - View correlation between raster
-    - Using Climate Ecological Niche Factors Analysis (CENFA) to select species predictors
-    - The assignment of the spatial blocks to cross-validation folds can be done in two                different ways: random and systematic by using blockCV package
-    - Using two methods both spatial blocking strategy and no blocking
-    - Export results
-    - Keep reproducibility (R code) by being able do download the underlying code from sdmApp
-```
+  - Uploading data (raster and species occurence files)
+  - View correlation between raster
+  - Using Climate Ecological Niche Factors Analysis (CENFA) to select
+    species predictors
+  - The assignment of the spatial blocks to cross-validation folds can
+    be done in two different ways: random and systematic by using
+    blockCV package
+  - Using two methods both spatial blocking strategy and no blocking
+  - Export results
+  - Keep reproducibility (R code) by being able do download the
+    underlying code from sdmApp
 
-![caption](sticker_vstone_07_1.png)
+We now describe the features of the interactive graphical user interface
+in detail. The GUI is separated into 6 main categories, which can be
+selected from the navigation bar at the top of the screen. Initially,
+some of these pages will be empty and their content changes once data
+(both raster and species occurence files) have been uploaded.
+
+<!--![caption](sticker_vstone_07_1.png)-->
 
 ## Features
 
