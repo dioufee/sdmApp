@@ -56,6 +56,8 @@ data below.
 
 ## Select data source
 
+<img src="image_data_source.png" align="center" width="200" />
+
 ### Testdata/internal data
 
 This screen allows the user to select data that are included in sdmApp.

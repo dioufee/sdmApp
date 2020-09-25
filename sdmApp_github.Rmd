@@ -49,6 +49,8 @@ We note that the content of this page changes depending on whether data have alr
 
 ## Select data source
 
+<img src="image_data_source.png" align="center" width="200" />
+
 ### Testdata/internal data
 
 This screen allows the user to select data that are included in sdmApp. Pressing the action button below the drop-down selection input will make the GUI use the selected data.In Niakhar data are included rasters and species occurence.
