@@ -450,35 +450,54 @@ cirad_hema <-function()
     #load.occ <- reactiveValues(columns = c())
     load.occ <- reactiveValues()
    
-type_file <-reactive({
-        if(input$file_type=="text"){
-              type_file=c('',"csv", "txt")}
-            else {
-              if(input$file_type=="Excel"){
-                type_file=c('',"xlsx", "xls")
-                }
-              else{
-                if(input$file_type=="SPSS"){
-                  type_file=c('',"sav", "zsav","por")}
-                else{
-                  if(input$file_type=="Stata"){
-                    type_file=c('',"dta")}
-                  else{if(input$file_type == "SAS"){type_file=c('',"sas7bdat")}}
-                  }
-                 }
-              
-            }
-              
-              
-              type_file
-            })
+# type_file <-reactive({
+#         if(input$file_type=="text"){
+#               type_file=c('',"csv", "txt")}
+#             else {
+#               if(input$file_type=="Excel"){
+#                 type_file=c('',"xlsx", "xls")
+#                 }
+#               else{
+#                 if(input$file_type=="SPSS"){
+#                   type_file=c('',"sav", "zsav","por")}
+#                 else{
+#                   if(input$file_type=="Stata"){
+#                     type_file=c('',"dta")}
+#                   else{if(input$file_type == "SAS"){type_file=c('',"sas7bdat")}}
+#                   }
+#                  }
+#               
+#             }
+#               
+#               
+#               type_file
+#             })
+######################################################################"
+observeEvent(input$file_type,{
+  if(input$file_type=="text"){
+    load.occ$type_file=c('',"csv", "txt")}
+  else {
+    if(input$file_type=="Excel"){
+      load.occ$type_file=c('',"xlsx", "xls")
+    }
+    else{
+      if(input$file_type=="SPSS"){
+        load.occ$type_file=c('',"sav", "zsav","por")}
+      else{
+        if(input$file_type=="Stata"){
+          load.occ$type_file=c('',"dta")}
+        else{if(input$file_type == "SAS"){load.occ$type_file=c('',"sas7bdat")}}
+      }
+    }
+    
+  }
     if(Sys.info()[['sysname']] == 'Linux') {
       shinyFileChoose(input, 'Occ', session=session,
                       roots = c(wd = working.directory,
                                 example = example,
                                 home = '/home',
                                 root = '/'),
-                      filetypes=type_file())
+                      filetypes=load.occ$type_file)
     } else if (Sys.info()[['sysname']] == 'Windows') {
       d = system('wmic logicaldisk get caption', intern = TRUE)
       disks = c()
@@ -490,15 +509,17 @@ type_file <-reactive({
                       roots = c(wd = working.directory,
                                 example = example,
                                 disks),
-                      filetypes=type_file())
+                      filetypes=load.occ$type_file)
     } else {
       shinyFileChoose(input, 'Occ', session=session,
                       roots = c(wd = working.directory,
                                 example = example,
                                 home = '/user',
                                 root = '/'),
-                      filetypes=type_file())
+                      filetypes=load.occ$type_file)
     }
+})
+  ###################################
     observeEvent(input$Occ, {
       if(!is.integer(input$Occ)) {
         file = paste0(switch(input$Occ$root,
@@ -507,41 +528,67 @@ type_file <-reactive({
                              'home' = '/home',
                              'root' = '/',
                              input$Occ$root), '/', paste0(unlist(input$Occ$files[[1]])[-1], collapse = '/'))
-        load.occ$columns = names(read.csv2(file))
-        load.occ$df_occ<-read.csv2(file)
-        
+        if(input$file_type=="text"){
+          load.occ$columns = names(read.csv2(file))
+          load.occ$df_occ<-read.csv2(file)
+          observeEvent(input$sep, {
+            if(!is.integer(input$Occ)) {
+              file = paste0(switch(input$Occ$root,
+                                   'wd' = working.directory,
+                                   'example' = example,
+                                   'home' = '/home',
+                                   'root' = '/',
+                                   input$Occ$root), '/', paste0(unlist(input$Occ$files[[1]])[-1], collapse = '/'))
+              load.occ$columns = names(read.csv2(file, sep = input$sep, nrows = 0))
+              load.occ$df_occ<-read.csv2(file, sep = input$sep, nrows = 0)
+            }
+          })
+          observeEvent(input$Occ, {
+            if(!is.integer(input$Occ)) {
+              file = paste0(switch(input$Occ$root,
+                                   'wd' = working.directory,
+                                   'example' = example,
+                                   'home' = '/home',
+                                   'root' = '/',
+                                   input$Occ$root), '/', paste0(unlist(input$Occ$files[[1]])[-1], collapse = '/'))
+              load.occ$columns = names(read.csv2(file, sep = input$sep, nrows = 0))
+              load.occ$df_occ<-read.csv2(file, sep = input$sep, nrows = 0)
+              
+            }
+          })
+        }
+        else if (input$file_type == "Excel") {
+          load.occ$columns <- names(read_excel(file))
+          load.occ$df_occ<-read_excel(file)
+        }
+        else if (input$file_type == "SPSS") {
+          load.occ$columns <- names(read_sav(file))
+          load.occ$df_occ<-read_sav(file)
+        }
+        else if (input$file_type == "Stata") {
+          load.occ$columns <- names(read_dta(file))
+          load.occ$df_occ<-read_dta(file)
+        }
+        else if (input$file_type == "SAS") {
+          load.occ$columns <- names(read_sas(file))
+          load.occ$df_occ<-read_sas(file)
+        }
       }
     })
-    observeEvent(input$sep, {
-      if(!is.integer(input$Occ)) {
-        file = paste0(switch(input$Occ$root,
-                             'wd' = working.directory,
-                             'example' = example,
-                             'home' = '/home',
-                             'root' = '/',
-                             input$Occ$root), '/', paste0(unlist(input$Occ$files[[1]])[-1], collapse = '/'))
-        load.occ$columns = names(read.csv2(file, sep = input$sep, nrows = 0))
-        load.occ$df_occ<-read.csv2(file, sep = input$sep, nrows = 0)
-      }
-    })
-    observeEvent(input$Occ, {
-      if(!is.integer(input$Occ)) {
-        file = paste0(switch(input$Occ$root,
-                             'wd' = working.directory,
-                             'example' = example,
-                             'home' = '/home',
-                             'root' = '/',
-                             input$Occ$root), '/', paste0(unlist(input$Occ$files[[1]])[-1], collapse = '/'))
-        load.occ$columns = names(read.csv2(file, sep = input$sep, nrows = 0))
-        load.occ$df_occ<-read.csv2(file, sep = input$sep, nrows = 0)
-      }
-    })
-     output$Xcol <- renderUI({selectInput('Xcol', 'X column', load.occ$columns, multiple = FALSE)})
-     output$Ycol <- renderUI({selectInput('Ycol', 'Y column', load.occ$columns, multiple = FALSE)})
-     output$Pcol <- renderUI({selectInput('Pcol', 'Presence (1) / absence (0) column', c('None', load.occ$columns), multiple = FALSE)})
-    # output$Spcol <- renderUI({selectInput('Spcol', 'Species column', c('None', load.occ$columns), multiple = FALSE)})
-    # output$reso <- renderUI({if(input$GeoRes){sliderInput('reso', 'Resampling grid coefficient', 1,10,1)}})
-     observeEvent(input$load2, {
+    
+    ##############################
+
+    ####################################################""
+     output$Xcol <- renderUI({selectInput('Xcol', 'Longitude (X)', load.occ$columns, multiple = FALSE)})
+     observeEvent(input$Xcol,{
+       load.occ$Ycolumns<-setdiff(load.occ$columns,input$Xcol)
+     output$Ycol <- renderUI({selectInput('Ycol', 'Latitude (Y)', load.occ$Ycolumns, multiple = FALSE)})
+     observeEvent(input$Ycol,{
+     load.occ$Pcol<-setdiff(load.occ$Ycolumns,input$Ycol)
+     output$Pcol <- renderUI({selectInput('Pcol', 'Specie column', load.occ$Pcol, multiple = FALSE)})
+     })
+     })
+    observeEvent(input$load2, {
       validate(
         need(length(data$Env@layers) > 0, 'You need to load environmental variable before !'),
         need(length(input$Occ) > 0, 'Choose occurrences file first !')
@@ -894,41 +941,27 @@ type_file <-reactive({
       txt_species_data <- paste0("The loaded dataset  consists of",code(nrow(load.occ$select)),"observations and ",code(ncol(load.occ$select)),"variables. ")
       txt_rasters_info<-paste0("You have" ,code(raster::nlayers(data$Env)),"layers.The extent is xmin=",code(raster::extent(data$Env)@xmin),",xmax=",code(raster::extent(data$Env)@xmax),",ymin=",code(raster::extent(data$Env)@ymin),",ymax=",code(raster::extent(data$Env)@ymax))
       fluidRow(
-        box(title = 'Loaded species occurence data',
-            p(HTML(txt_species_data)),
-            dataTableOutput("occ_data_select")),
-        box(title = 'Information about the loaded dataset',
-            dataTableOutput("SpeciesTable")),
-        box(title = 'Layers summerize',
-            dataTableOutput("sumlayers")),
-        box(title = 'Information about rasters',
-            p(HTML(txt_rasters_info)))
-        
+        mainPanel(width = 8, tabsetPanel(type = "tabs",
+                                         tabPanel("Occurence data",
+                                                  p(HTML(txt_species_data)),
+                                                  dataTableOutput("occ_data_select")
+                                         ),
+                                         tabPanel("Summarise Occurence data",
+                                                  p(HTML(txt_rasters_info)),
+                                                  dataTableOutput("SpeciesTable")
+                                         ),
+                                         tabPanel("Layers summerize",
+                                                  dataTableOutput("sumlayers"))
+                                         
+                                         
+        ),
+        id = "tabs")
         )
     
         
     })
     
-    # output$ui_view_raster_data<-renderUI({
-    #   # p<-selectInput("text_delim", "Delimiter:", list(Semicolon = ";", 
-    #   #                                                 Tab = "\t", Comma = ",", Space = " "), selected = "Semicolon", width="50%")
-    #   # btn<-myActionButton("submit_data_button", label=("Submit data"),"primary")
-    #   return(fluidRow(
-    #     box(title = 'Environmental variables', height = 600,
-    #         p('Load environmental rasters for model building or model forecasting'),
-    #         uiOutput('Envbug'),
-    #         shinyFilesButton('envfiles', 'Raster selection', 'Please select rasters', FALSE, multiple = TRUE),
-    #         tableOutput('envnames'),
-    #         uiOutput('factors'),
-    #         p('Which variable should be considered as a categorical variable'),
-    #         checkboxGroupInput('load.var.options', 'loading options', list('Normalization'), selected = 'Normalization', inline = TRUE),
-    #         actionButton('load', 'Load')
-    #     ),
-    #     box(title = 'Preview', height = 600,
-    #         uiOutput('layerchoice'),
-    #         plotOutput('env'))
-    #   ))
-    # })
+   
     ###############"################################
     
     
@@ -1024,14 +1057,27 @@ type_file <-reactive({
                                p.mat = p.mat(),
                                colors = c("#6D9EC1", "white", "#E46726"))
       })
-      out <- NULL
-      out <- list(out,
-                  fluidRow(column(12, h4("Correlation between rasters"), align="center")),
-                  fluidRow(box(title = 'Correlation matrix',
-                               DT::dataTableOutput("coor_mat")),
-                           box(title = 'Correlation Plot',
-                               plotOutput("coor_plot"))))
-      out
+      fluidRow(column(12, h4("Correlation between rasters"), align="center"),
+        mainPanel(width = 8, tabsetPanel(type = "tabs",
+                                          tabPanel("Correlation matrix",
+                                                   DT::dataTableOutput("coor_mat")
+                                          ),
+                                          tabPanel("Correlation Plot",
+                                                   plotOutput("coor_plot")
+                                          )
+                                          
+                                          
+        ),
+        id = "tabs")
+      )
+      # out <- NULL
+      # out <- list(out,
+      #             fluidRow(column(12, h4("Correlation between rasters"), align="center")),
+      #             fluidRow(box(title = 'Correlation matrix',
+      #                          DT::dataTableOutput("coor_mat")),
+      #                      box(title = 'Correlation Plot',
+      #                          plotOutput("coor_plot"))))
+      # out
     })
     
     Specdata<-reactive({
@@ -1102,25 +1148,24 @@ type_file <-reactive({
                   
         )})
       txt_enfa_info<-paste0('The number of significant factors is',code(brStick(s.factor(mod.enfa()))))
-      #text_enfa<-'Ecological-niche factor analysis (ENFA) is a multivariate approach to study geographic distribution of species on a large scale with only "presence" data. It has been widely applied in many fields including wildlife management, habitat assessment and habitat prediction'
-      out <- NULL
-      out <- list(out,
-                  fluidRow(column(12, h4("Ecological Niche Factor Analysis"), align="center")
-                          ))
-      out <-list(out,
-                 conditionalPanel(
-                   condition = brStick(s.factor(mod.enfa()))>1,
-                   selectInput('number_spec', 'Please select the number between 2 and the number of significant factors.', 2:brStick(s.factor(mod.enfa())), multiple = FALSE, selectize = TRUE)
-                 ))
-      out <-list(out,
-                  fluidRow(column(12,
-                              plotOutput("enfa_scatter")))
-                           )
-      out<-list(out,
-                fluidRow(box(title = 'Marginality and specialization on each ENFA factor',
-                             p(HTML(txt_enfa_info)),
-                             DT::dataTableOutput("marg"))))
-      out
+      fluidRow(column(12, h4("Ecological Niche Factor Analysis"), align="center"),
+        mainPanel(width = 8, tabsetPanel(type = "tabs",
+                                          tabPanel("ENFA",
+                                                   conditionalPanel(
+                                                     condition = brStick(s.factor(mod.enfa()))>1,
+                                                     selectInput('number_spec', 'Please select the number between 2 and the number of significant factors.', 2:brStick(s.factor(mod.enfa())), multiple = FALSE, selectize = TRUE)
+                                                   ),
+                                                   plotOutput("enfa_scatter"))
+                                          ),
+                                          tabPanel("Marginality and specialization",
+                                                   p(HTML(txt_enfa_info)),
+                                                   DT::dataTableOutput("marg")
+                                          )
+                                          
+                                          
+        ,
+        id = "tabs")
+      )
     })
     
     
@@ -1154,12 +1199,12 @@ type_file <-reactive({
     
     output$ui_preparation_sidebar_left <- renderUI({
       output$ui_sel_preparation_btns <- renderUI({
-        cc1 <- c("Species Data","Species distribution")
+        cc1 <- c("Summarise","Species distribution")
         cc2 <- c("Correlation between \n rasters (predictors)", "Ecological Niche\n Factors Analysis (ENFA)", "environmental blocks")
         #cc3 <- c("err.missforest", "err.knn", "err.missmda")
         
         df <- data.frame(lab=c(cc1,cc2), header=NA)
-        df$header[1] <- "View Data"
+        df$header[1] <- "View"
         df$header[3] <- "Spatial Analysis"
         #df$header[5] <- "Erreur Imputation"
         
