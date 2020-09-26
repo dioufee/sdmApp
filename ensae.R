@@ -110,6 +110,20 @@ ggR_P<-function(rasterLayer){
   return(basePlot1)
 }
 
+sdmApp_RasterPlot<-function(rasterLayer){
+  samp <- raster::sampleRegular(rasterLayer, 5e+05, asRaster = TRUE)
+  map_df <- raster::as.data.frame(samp, xy = TRUE, centroids = TRUE, 
+                                  na.rm = TRUE)
+  colnames(map_df) <- c("Easting", "Northing", "MAP")
+  basePlot1 <- ggplot2::ggplot() + ggplot2::geom_raster(data = map_df, 
+                                                        ggplot2::aes_string(y = "Northing", x = "Easting", fill = "MAP"))
+  basePlot1<-basePlot1 + ggplot2::theme_bw() + ggplot2::labs(x = "Longitude", y = "Latitude") +
+    ggtitle(label = names(rasterLayer)) + 
+    theme(plot.title = element_text(hjust = 0.5, size = 10)) + 
+    ggplot2::scale_fill_gradientn(name = " ", colours = rev(terrain.colors(10)))
+  return(basePlot1)
+}
+
 PASpecies<-function(rasterLayer){
   samp <- raster::sampleRegular(rasterLayer, 5e+05, asRaster = TRUE)
   map_df <- raster::as.data.frame(samp, xy = TRUE, centroids = TRUE, 
@@ -345,9 +359,6 @@ cirad_hema <-function()
         names(load.var$vars) <- unlist(load.var$vars)
       }
     })
-    # output$envnames <- renderTable({
-    #   matrix(names(data$Env),dimnames=list(c(1:length(names(data$Env))),c("Selected data")))
-    # })
     
     output$factors <- renderUI({
       selectInput('factors', 'Categorical', load.var$vars, multiple = TRUE, selectize = TRUE)
@@ -382,11 +393,7 @@ cirad_hema <-function()
         format = paste0('.',strsplit(load.var$vars[[i]], '.', fixed = TRUE)[[1]][2])
         if (!(format %in% load.var$formats)) {load.var$formats = c(load.var$formats, format)}
       }
-      # if('Normalization' %in% input$load.var.options) {
-      #   load.var$norm = TRUE
-      # } else {
-      #   load.var$norm = FALSE
-      # }
+     
       a = try(withProgress(message = 'Variables loading',
                            load_var(path,
                                     files = unlist(load.var$vars),
@@ -417,11 +424,12 @@ cirad_hema <-function()
               map = data$Env[[i]]
             }
             
-            a=try(spplot(map,
-                   main = names(data$Env)[i],
-                   xlab = 'Longitude (\u02DA)',
-                   ylab = 'Latitude (\u02DA)',
-                   col.regions = rev(terrain.colors(10000))))
+            # a=try(spplot(map,
+            #        main = names(data$Env)[i],
+            #        xlab = 'Longitude (\u02DA)',
+            #        ylab = 'Latitude (\u02DA)',
+            #        col.regions = rev(terrain.colors(10000))))
+            a =try(sdmApp_RasterPlot(map))
             if(inherits(a, 'try-error')){
               output$Envbugplot <- renderUI(p('Can not plot this raster! Please verify it and try again.'))
             }
@@ -431,6 +439,9 @@ cirad_hema <-function()
             }
           }
         })
+        # observeEvent(input$export_raster_plot,{
+        #   ggsave(paste0(working.directory,input$layer,".png"),a)
+        # })
       }
       updateTabItems(session, "actions", selected = "newdata")
     })
@@ -438,13 +449,36 @@ cirad_hema <-function()
     # Occurrences loading
     #load.occ <- reactiveValues(columns = c())
     load.occ <- reactiveValues()
+   
+type_file <-reactive({
+        if(input$file_type=="text"){
+              type_file=c('',"csv", "txt")}
+            else {
+              if(input$file_type=="Excel"){
+                type_file=c('',"xlsx", "xls")
+                }
+              else{
+                if(input$file_type=="SPSS"){
+                  type_file=c('',"sav", "zsav","por")}
+                else{
+                  if(input$file_type=="Stata"){
+                    type_file=c('',"dta")}
+                  else{if(input$file_type == "SAS"){type_file=c('',"sas7bdat")}}
+                  }
+                 }
+              
+            }
+              
+              
+              type_file
+            })
     if(Sys.info()[['sysname']] == 'Linux') {
       shinyFileChoose(input, 'Occ', session=session,
                       roots = c(wd = working.directory,
                                 example = example,
                                 home = '/home',
                                 root = '/'),
-                      filetypes=c('',"csv", "txt"))
+                      filetypes=type_file())
     } else if (Sys.info()[['sysname']] == 'Windows') {
       d = system('wmic logicaldisk get caption', intern = TRUE)
       disks = c()
@@ -456,14 +490,14 @@ cirad_hema <-function()
                       roots = c(wd = working.directory,
                                 example = example,
                                 disks),
-                      filetypes=c('',"csv", "txt"))
+                      filetypes=type_file())
     } else {
       shinyFileChoose(input, 'Occ', session=session,
                       roots = c(wd = working.directory,
                                 example = example,
                                 home = '/user',
                                 root = '/'),
-                      filetypes=c('',"csv", "txt"))
+                      filetypes=type_file())
     }
     observeEvent(input$Occ, {
       if(!is.integer(input$Occ)) {
@@ -534,56 +568,85 @@ cirad_hema <-function()
     #output$occ <- renderDataTable({load.occ$df_occ})
     
     output$ui_import_csv <- renderUI({
-      # rb1 <- radioButtons("import_csv_header", label=p("Does the first row contain the variable names?"), choices=c(TRUE,FALSE), inline=TRUE)
-      # rb2 <- radioButtons("import_csv_sep", label=p("Select the field separator"), choices=c(Comma=",", Semicolon=";", Tab="\t"), inline=TRUE)
+      
+      ###############################################"
       txt_rasters_info<-paste0("You have" ,code(raster::nlayers(data$Env)),"layers.The extent is xmin=",code(raster::extent(data$Env)@xmin),",xmax=",code(raster::extent(data$Env)@xmax),",ymin=",code(raster::extent(data$Env)@ymin),",ymax=",code(raster::extent(data$Env)@ymax))
-      return( fluidPage(
-        fluidRow(
-          box(title = 'Environmental variables', height = 600,
-              #background = "green",
-              p('Load environmental rasters for model building or model forecasting'),
-              uiOutput('Envbug'),
-              shinyFilesButton('envfiles', 'Raster selection', 'Please select rasters', FALSE, multiple = TRUE),
-              actionButton('load', 'Load'),
-              p(HTML(txt_rasters_info)),
-              p('Which variable should be considered as a categorical variable'),
-              uiOutput('factors')
-              
-              
-              #checkboxGroupInput('load.var.options', 'loading options', list('Normalization'), selected = 'Normalization', inline = TRUE),
-              
-          ),
-          box(title = 'Preview', height = 600,
-              uiOutput('layerchoice'),
-              uiOutput('Envbugplot'),
-              plotOutput('env'),
-              shinySaveButton('save', 'Save raster plot', 'Save as...',
-                              filetype = list(picture=c('png','jpg', 'jpeg')))
-              
-        )),
-        fluidRow(
-          box(title = 'Occurrence table',
-              uiOutput('Occbug'),
-              shinyFilesButton('Occ', 'Occurrence selection', 'Please select occurrence file', FALSE),
-              radioButtons('sep', 'Separator',
-                           c(Comma = ',',
-                             Semicolon = ';',
-                             Tab = '\t',
-                             'White space' = ' '),
-                           ',', inline = TRUE),
-              radioButtons('dec', 'Decimal',
-                           c(Point ='.',
-                             Comma = ','),
-                           '.', inline = TRUE),
-              uiOutput('Xcol'),
-              uiOutput('Ycol'),
-              uiOutput('Pcol'),
-              actionButton('load2', 'Select studied specie')),
-          box(title = 'Preview',
-              dataTableOutput('occ')
-          )
-        )
-      ))
+      out<-NULL
+      out<-list(out,
+                sidebarPanel(
+                  p('Load environmental rasters for model building or model forecasting'),
+                  uiOutput('Envbug'),
+                  shinyFilesButton('envfiles', 'Raster selection', 'Please select rasters', FALSE, multiple = TRUE),
+                     selectInput("categorical_var","Categorical variable",
+                                c(No = "No categorical",Yes = "Categorical")),
+                    conditionalPanel(
+                      condition = "input.categorical_var == 'Categorical'",
+                      p('Which variable should be considered as a categorical variable?'),
+                      uiOutput('factors')
+                  ),
+                    myActionButton("load",label=("Load data"), "primary")),
+                    #actionButton('load', 'Load')),
+                  mainPanel(width = 6, tabsetPanel(type = "tabs",
+                                                   tabPanel("About",
+                                                            p(HTML(txt_rasters_info))
+                                                            ),
+                                                    tabPanel("Preview",
+                                                          
+                                                             uiOutput('layerchoice'),
+                                                             myActionButton("export_raster_plot",label=("Export"), "primary"),
+                                                             uiOutput('Envbugplot'),
+                                                             plotOutput('env')
+                                                    )
+                                                    
+                                                    
+                  ),
+                  id = "tabs")
+                  )
+      out
+      #####################################################
+      out<-list(out,
+                column(12,
+                sidebarPanel(
+                  p('Occurrence table'),
+                  selectInput("file_type","Type of file:", list(`text (csv)` = "text", 
+                                                                Excel = "Excel", SPSS = "SPSS", 
+                                                                Stata = "Stata", SAS = "SAS"), selected = "text"),
+                  shinyFilesButton('Occ', 'Occurrence selection', 'Please select occurrence file', FALSE),
+                  conditionalPanel(condition = "input.file_type=='text'",
+                  radioButtons('sep', 'Separator',
+                               c(Comma = ',',
+                                 Semicolon = ';',
+                                 Tab = '\t',
+                                 'White space' = ' '),
+                               ',', inline = TRUE),
+                  radioButtons('dec', 'Decimal',
+                               c(Point ='.',
+                                 Comma = ','),
+                               '.', inline = TRUE)),
+                  uiOutput('Xcol'),
+                  uiOutput('Ycol'),
+                  uiOutput('Pcol'),
+                  myActionButton("load2",label=("Load"), "primary")
+                  #actionButton('load2', 'Select studied specie')
+                ),
+                mainPanel(width = 6, tabsetPanel(type = "tabs",
+                                                 tabPanel("Preview",
+                                                          uiOutput('Occbug'),
+                                                          dataTableOutput('occ')))
+                          ,
+                          id = "tabs2"))
+      )
+      #   fluidRow(
+      #     box(title = 'Occurrence table',
+      #         uiOutput('Occbug'),
+      #         shinyFilesButton('Occ', 'Occurrence selection', 'Please select occurrence file', FALSE),
+
+
+      #     box(title = 'Preview',
+      #         dataTableOutput('occ')
+      #     )
+      #   )
+      # ))
     })
     
     # # specific (gui)-options for r-dataframe import
