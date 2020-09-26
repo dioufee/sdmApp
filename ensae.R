@@ -1156,15 +1156,13 @@ observeEvent(input$file_type,{
                                                      selectInput('number_spec', 'Please select the number between 2 and the number of significant factors.', 2:brStick(s.factor(mod.enfa())), multiple = FALSE, selectize = TRUE)
                                                    ),
                                                    plotOutput("enfa_scatter"))
-                                          ),
+                                          ,
                                           tabPanel("Marginality and specialization",
                                                    p(HTML(txt_enfa_info)),
                                                    DT::dataTableOutput("marg")
-                                          )
-                                          
-                                          
-        ,
-        id = "tabs")
+                                          )),
+                  id = "tabs")
+        
       )
     })
     
@@ -1176,38 +1174,21 @@ observeEvent(input$file_type,{
         return(uiOutput("ui_view_species_data"))
       }
       if (val=="btn_preparation_results_2") {
-        return(uiOutput("ui_view_raster_data"))
+        return(uiOutput("ui_correlation"))
       }
-       if (val=="btn_preparation_results_3") {
-         return( uiOutput("ui_correlation"))
-        }
-      
-      if (val=="btn_preparation_results_4") {
+      if (val=="btn_preparation_results_3") {
         return(uiOutput("ui_enfa"))
       }
-      #if (val=="btn_preparation_results_5") {
-      #return(uiOutput("ui_bivariate_tab_header"))
-      #}
-      #if (val=="btn_preparation_results_6") {
-      #return(uiOutput("ui_rescat_recodes_header"))
-      #}
-      #if (val=="btn_preparation_results_7") {
-      #return(uiOutput("ui_rescat_violating_kanon_header"))
-      #}
-      #out
+      
     })	
     
     output$ui_preparation_sidebar_left <- renderUI({
       output$ui_sel_preparation_btns <- renderUI({
-        cc1 <- c("Summarise","Species distribution")
-        cc2 <- c("Correlation between \n rasters (predictors)", "Ecological Niche\n Factors Analysis (ENFA)", "environmental blocks")
-        #cc3 <- c("err.missforest", "err.knn", "err.missmda")
-        
+        cc1 <- c("Summarise")
+        cc2 <- c("Correlation", "ENFA")
         df <- data.frame(lab=c(cc1,cc2), header=NA)
         df$header[1] <- "View"
-        df$header[3] <- "Spatial Analysis"
-        #df$header[5] <- "Erreur Imputation"
-        
+        df$header[2] <- "Spatial Analysis"
         out <- NULL
         for (i in 1:nrow(df)) {
           id <- paste0("btn_preparation_results_",i)
@@ -1226,7 +1207,7 @@ observeEvent(input$file_type,{
         out
       })
       # required observers that update the color of the active button!
-      eval(parse(text=genObserver_menus(pat="btn_preparation_results_", n=1:5, updateVal="cur_selection_results")))
+      eval(parse(text=genObserver_menus(pat="btn_preparation_results_", n=1:3, updateVal="cur_selection_results")))
       return(uiOutput("ui_sel_preparation_btns"))
     })
     output$ui_anonymize_noproblem <- renderUI({
