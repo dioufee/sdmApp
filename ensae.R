@@ -1285,23 +1285,26 @@ observeEvent(input$file_type,{
         sac<-sac()
         sac$plots$mapplot
       })
-      out <- NULL
-      out <- list(out,
-                  fluidRow(column(12, h4("Spatial auto range"), align="center")),
-                  fluidRow(box(title = 'barchart',
-                               p('Spatial autocorrelation ranges in input covariates'),
-                               plotOutput("barchart")),
-                           box(title = 'mapplot',
-                               p('Corresponding spatial blocks (the selected block size is based on median spatial autocorrelation range across all input data)'),
-                               plotOutput("mapplot")),
-                           box(title = "Range",
-                               p('Spatial autocorrelation ranges table in input covariates'),
-                               DT::dataTableOutput("tableRange")),
-                           box(title = "Variogramme",
-                               selectInput('vario_var', 'Please select the predictor to see variogram corresponding', names(data$Env), multiple = FALSE, selectize = TRUE),
-                               plotOutput("variogram"))
-                           ))
-      out
+      
+      fluidRow(column(12, h4("Spatial"), align="center"),
+               mainPanel(width = 8, tabsetPanel(type = "tabs",
+                                                tabPanel("barchart",
+                                                         p('Spatial autocorrelation ranges in input covariates'),
+                                                         plotOutput("barchart")),
+                                                tabPanel("mapplot",
+                                                         p('Corresponding spatial blocks (the selected block size is based on median spatial autocorrelation range across all input data)'),
+                                                         plotOutput("mapplot")),
+                                                tabPanel("Autocorrelation range table",
+                                                         p('Spatial autocorrelation ranges table in input covariates'),
+                                                         DT::dataTableOutput("tableRange")),
+                                                tabPanel("Variogramme",
+                                                         selectInput('vario_var', 'Please select the predictor to see variogram corresponding', names(data$Env), multiple = FALSE, selectize = TRUE),
+                                                         plotOutput("variogram"))
+                                                         
+                                                ),
+                         id = "tabs")
+               
+      )
     })
     output$ui_spatial_blocks<-renderUI({
       observeEvent(input$number_fold,{
