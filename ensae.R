@@ -612,241 +612,79 @@ observeEvent(input$file_type,{
      output$occ <- DT::renderDataTable({
        occ_data_df()
      })
-    #output$occ <- renderDataTable({load.occ$df_occ})
     
-    output$ui_import_csv <- renderUI({
-      
-      ###############################################"
-      txt_rasters_info<-paste0("You have" ,code(raster::nlayers(data$Env)),"layers.The extent is xmin=",code(raster::extent(data$Env)@xmin),",xmax=",code(raster::extent(data$Env)@xmax),",ymin=",code(raster::extent(data$Env)@ymin),",ymax=",code(raster::extent(data$Env)@ymax))
+    output$ui_import_data <- renderUI({
       out<-NULL
+      out <- fluidRow(
+        column(width = 12, offset = 0, h3("Uploading environmental variables and occurrence table"), class="wb-header"),
+        column(width = 12, offset = 0, p("Load the dataset."), class="wb-header-hint"),
+        fluidRow(column(12, h4("Read Me", tipify(icon("info-circle"), title=txt_setup, placement="bottom"), class="wb-block-title"), align="center"))
+      )
+      txt_rasters_info<-paste0("You have" ,code(raster::nlayers(data$Env)),"layers.The extent is xmin=",code(raster::extent(data$Env)@xmin),",xmax=",code(raster::extent(data$Env)@xmax),",ymin=",code(raster::extent(data$Env)@ymin),",ymax=",code(raster::extent(data$Env)@ymax))
       out<-list(out,
                 sidebarPanel(
                   p('Load environmental rasters for model building or model forecasting'),
                   uiOutput('Envbug'),
                   shinyFilesButton('envfiles', 'Raster selection', 'Please select rasters', FALSE, multiple = TRUE),
-                     selectInput("categorical_var","Categorical variable",
-                                c(No = "No categorical",Yes = "Categorical")),
-                    conditionalPanel(
-                      condition = "input.categorical_var == 'Categorical'",
-                      p('Which variable should be considered as a categorical variable?'),
-                      uiOutput('factors')
+                  selectInput("categorical_var","Categorical variable",
+                              c(No = "No categorical",Yes = "Categorical")),
+                  conditionalPanel(
+                    condition = "input.categorical_var == 'Categorical'",
+                    p('Which variable should be considered as a categorical variable?'),
+                    uiOutput('factors')
                   ),
-                    myActionButton("load",label=("Load data"), "primary")),
-                    #actionButton('load', 'Load')),
-                  mainPanel(width = 6, tabsetPanel(type = "tabs",
-                                                   tabPanel("About",
-                                                            p(HTML(txt_rasters_info))
-                                                            ),
-                                                    tabPanel("Preview",
+                  myActionButton("load",label=("Load data"), "primary")),
+                #actionButton('load', 'Load')),
+                mainPanel(width = 6, tabsetPanel(type = "tabs",
+                                                 tabPanel("About",
+                                                          p(HTML(txt_rasters_info))
+                                                 ),
+                                                 tabPanel("Preview",
                                                           
-                                                             uiOutput('layerchoice'),
-                                                             myActionButton("export_raster_plot",label=("Export"), "primary"),
-                                                             uiOutput('Envbugplot'),
-                                                             plotOutput('env')
-                                                    )
-                                                    
-                                                    
-                  ),
-                  id = "tabs")
-                  )
+                                                          uiOutput('layerchoice'),
+                                                          myActionButton("export_raster_plot",label=("Export"), "primary"),
+                                                          uiOutput('Envbugplot'),
+                                                          plotOutput('env')
+                                                 )
+                                                 
+                                                 
+                ),
+                id = "tabs")
+      )
       out
       #####################################################
       out<-list(out,
                 column(12,
-                sidebarPanel(
-                  p('Occurrence table'),
-                  selectInput("file_type","Type of file:", list(`text (csv)` = "text", 
-                                                                Excel = "Excel", SPSS = "SPSS", 
-                                                                Stata = "Stata", SAS = "SAS"), selected = "text"),
-                  shinyFilesButton('Occ', 'Occurrence selection', 'Please select occurrence file', FALSE),
-                  conditionalPanel(condition = "input.file_type=='text'",
-                  radioButtons('sep', 'Separator',
-                               c(Comma = ',',
-                                 Semicolon = ';',
-                                 Tab = '\t',
-                                 'White space' = ' '),
-                               ',', inline = TRUE),
-                  radioButtons('dec', 'Decimal',
-                               c(Point ='.',
-                                 Comma = ','),
-                               '.', inline = TRUE)),
-                  uiOutput('Xcol'),
-                  uiOutput('Ycol'),
-                  uiOutput('Pcol'),
-                  myActionButton("load2",label=("Load"), "primary")
-                  #actionButton('load2', 'Select studied specie')
-                ),
-                mainPanel(width = 6, tabsetPanel(type = "tabs",
-                                                 tabPanel("Preview",
-                                                          uiOutput('Occbug'),
-                                                          dataTableOutput('occ')))
-                          ,
-                          id = "tabs2"))
+                       sidebarPanel(
+                         p('Occurrence table'),
+                         selectInput("file_type","Type of file:", list(`text (csv)` = "text", 
+                                                                       Excel = "Excel", SPSS = "SPSS", 
+                                                                       Stata = "Stata", SAS = "SAS"), selected = "text"),
+                         shinyFilesButton('Occ', 'Occurrence selection', 'Please select occurrence file', FALSE),
+                         conditionalPanel(condition = "input.file_type=='text'",
+                                          radioButtons('sep', 'Separator',
+                                                       c(Comma = ',',
+                                                         Semicolon = ';',
+                                                         Tab = '\t',
+                                                         'White space' = ' '),
+                                                       ',', inline = TRUE),
+                                          radioButtons('dec', 'Decimal',
+                                                       c(Point ='.',
+                                                         Comma = ','),
+                                                       '.', inline = TRUE)),
+                         uiOutput('Xcol'),
+                         uiOutput('Ycol'),
+                         uiOutput('Pcol'),
+                         myActionButton("load2",label=("Load"), "primary")
+                         #actionButton('load2', 'Select studied specie')
+                       ),
+                       mainPanel(width = 6, tabsetPanel(type = "tabs",
+                                                        tabPanel("Preview",
+                                                                 uiOutput('Occbug'),
+                                                                 dataTableOutput('occ')))
+                                 ,
+                                 id = "tabs2"))
       )
-      #   fluidRow(
-      #     box(title = 'Occurrence table',
-      #         uiOutput('Occbug'),
-      #         shinyFilesButton('Occ', 'Occurrence selection', 'Please select occurrence file', FALSE),
-
-
-      #     box(title = 'Preview',
-      #         dataTableOutput('occ')
-      #     )
-      #   )
-      # ))
-    })
-    
-    # # specific (gui)-options for r-dataframe import
-    # output$ui_import_rdf <- renderUI({
-    #   selDF <- selectInput("sel_choose_df", label=NULL, choices=available_dfs,
-    #                        selected=input$sel_choose_df, width="50%")
-    #   # btn<-bsButton("choose_df", label = "Load data",
-    #   #          block = TRUE,type="button" value = TRUE)
-    #   btn <- myActionButton("btn_chooose_df",label=("Load data"), "primary")
-    #   return(fluidRow(
-    #     column(12, p("Select a test dataset or any object in your current workspace", align="center")),
-    #     column(12, div(selDF, align="center")),
-    #     column(12, p(btn, align="center"))))
-    # })
-    # 
-    # # specific (gui)-options for sas import
-    # output$ui_import_sas <- renderUI({
-    #   return(NULL)
-    # })
-    # 
-    # # specific (gui)-options for spss import
-    # output$ui_import_spss <- renderUI({
-    #   return(NULL)
-    # })
-    # 
-    # # specific (gui)-options for stata import
-    # output$ui_import_stata <- renderUI({
-    #   return(NULL)
-    # })
-    
-    # specific (gui)_options for paste data
-    
-    
-    output$ui_import_data_main <- renderUI({
-      # cur_error <- lastError()
-      # btn <- myActionButton("btn_reset_inputerror",label=("Try again!"), "primary")
-      # if (!is.null(lastError())) {
-      #   return(fluidRow(
-      #     column(12, h4("Importing data resulted in an error!"), align="center"),
-      #     column(12, verbatimTextOutput("ui_lasterror")),
-      #     column(12, btn, align="center")))
-      # }
-      # Create the object with no values
-      #obj <- reactiveValues()
-      #obj$cur_selection_import <- "btn_import_data_1" # navigation for import
-      val <- obj$cur_selection_import
-      if (val=="btn_import_data_1") {
-        val <- "rdf"
-      }
-      if (val=="btn_import_data_2") {
-        val <- "rdata"
-      }
-      if (val=="btn_import_data_3") {
-        val <- "spss"
-      }
-      if (val=="btn_import_data_4") {
-        val <- "sas"
-      }
-      if (val=="btn_import_data_5") {
-        val <- "csv"
-      }
-      if (val=="btn_import_data_6") {
-        val <- "stata"
-      }
-      if (val=="btn_import_data_7") {
-        val <- "paste"
-      }
-      txt_setup<-'First please load environmental variables(rasters). After loaded the previous data please load specie occurence data!'
-      out <- fluidRow(
-        column(width = 12, offset = 0, h3("Uploading environmental variables and occurrence table"), class="wb-header"),
-        column(width = 12, offset = 0, p("Load the dataset."), class="wb-header-hint"),
-        fluidRow(column(12, h4("Select variables", tipify(icon("info-circle"), title=txt_setup, placement="bottom"), class="wb-block-title"), align="center"))
-      )
-      
-      if (val %in% c("R","csv","spss","sas","rdata","stata","paste")) {
-        # convert characters automatically to factors
-        # rb1 <- radioButtons("rb_convert_c_to_f", label=p("Convert string variables (character vectors) to factor variables?"), choices=c(TRUE, FALSE), inline=TRUE)
-        # rb2 <- radioButtons("rb_drop_all_missings", label=p("Drop variables with only missing values (NA)?"), choices=c(TRUE, FALSE), inline=TRUE)
-        # 
-        # out <- list(out, fluidRow(column(12, h4("Set additional options for the data import"))))
-        # 
-        # out <- list(out, fluidRow(
-        #   column(6, rb1, align="center"),
-        #   column(6, rb2, align="center")))
-        
-        if (val == "csv") {
-          #allowed <- c(".txt",".csv")
-          out <- list(out, uiOutput("ui_import_csv"))
-        }
-        if (val == "spss") {
-          #allowed <- c(".sav")
-          out <- list(out, uiOutput("ui_import_spss"))
-        }
-        if (val == "sas") {
-          #allowed <- c(".sas7bdat")
-          out <- list(out, uiOutput("ui_import_sas"))
-        }
-        if (val == "rdata") {
-          #allowed <- c(".rdata")
-        }
-        if (val == "stata") {
-          #allowed <- c(".dta")
-          out <- list(out, uiOutput("ui_import_stata"))
-        }
-        # out <- list(out, fluidRow(
-        #   column(12, p("Note: the selected file is loaded immediately upon selecting. Set the above options before selecting the file."), align="center")
-        # ))
-        # 
-        # fI <- fileInput("file1", p(paste0("Select file (allowed types are '",paste0(allowed, collapse="', '"),"')")),
-        #                 width="75%", accept=allowed)
-        # out <- list(out, fluidRow(column(12, fI, align="center")))
-      } 
-      else{
-        out <- list(out, uiOutput("ui_import_rdf"))
-      }
-      
-      
-      if (val == "paste") {
-        return(uiOutput("ui_import_paste"))
-      }
-      
-      
-      out
-    })
-    ###################################################################
-    output$ui_import_data_sidebar_left <- renderUI({
-      output$ui_sel_resbtns_import <- renderUI({
-        cc <- c("Testdata/internal data", "R-dataset (.rdata)", "SPSS-file (.sav)", "SAS-file (.sasb7dat)",
-                "CSV-file (.csv, .txt)", "STATA-file (.dta)","Paste Data","Dowload Data")
-        out <- fluidRow(column(12, h4("Select data source")))
-        for (i in 1:length(cc)) {
-          id <- paste0("btn_import_data_", i)
-          if (obj$cur_selection_import==id) {
-            style <- "primary"
-          } else {
-            style <- "default"
-          }
-          out <- list(out, fluidRow(
-            # column(12, bsButton(id, label=cc[i], block=TRUE, size="extra-small", style=style), tags$br())
-            column(12, bsButton(id, label=cc[i], block=TRUE, size="extra-small", style=style))
-          ))
-        }
-        out
-      })
-      
-      # required observers that update the color of the active button!
-      eval(parse(text=genObserver_menus(pat="btn_import_data_", n=1:8, updateVal="cur_selection_import")))
-      return(uiOutput("ui_sel_resbtns_import"))
-    })
-    output$ui_import_data <- renderUI({
-      fluidRow(
-        column(2, uiOutput("ui_import_data_sidebar_left"), class="wb_sidebar"),
-        column(10, uiOutput("ui_import_data_main"), class="wb-maincolumn"))
     }
     )
     ########################################### End Data upload ##############
@@ -1365,23 +1203,40 @@ observeEvent(input$file_type,{
         Explorer(spatialblock, data$Env, pa_data(),load.occ$fold)
       }) 
       
-      out <- NULL
-      out <- list(out,
-                  fluidRow(box(title = "Set spatial bloking parameters",
-                           sliderInput("number_fold", "folds", min=1, max=100, value=5),
-                           selectInput("allocation_fold","allocation of blocks to folds",choices = c("random","systematic"),selected="random")),
-                           box(title = "Number fold of test dataset",
-                               sliderInput("test_fold","Select the number of fold to assign as test dataset",min = 1,max=5,value = 1))) #max=input$number_fold
+      fluidRow(column(12, h4("Spatial blocking"), align="center"),
+               mainPanel(width = 8, tabsetPanel(type = "tabs",
+                                                tabPanel("Spatial blocking",
+                                                         p('Set spatial bloking parameters'),
+                                                         sliderInput("number_fold", "folds", min=1, max=100, value=5),
+                                                         selectInput("allocation_fold","allocation of blocks to folds",choices = c("random","systematic"),selected="random"),
+                                                         sliderInput("test_fold","Select the number of fold to assign as test dataset",min = 1,max=100,value = 1),
+                                                         plotOutput("sp_block"),
+                                                         plotOutput("test_train_plot")),
+                                                tabPanel("Summarize fold",
+                                                         p('Fold summarizing. Purcentage means the purcentage of test dataset'),
+                                                         DT::dataTableOutput("sum_fold"))
+                                                
+               ),
+               id = "tabs")
+               
       )
-      out<-list(out,
-                fluidRow(box(title = 'Spatial blocking',
-                             plotOutput("sp_block")),
-                         box(title = 'Summarise fold',
-                             DT::dataTableOutput("sum_fold"))))
-      out<-list(out,
-                fluidRow(column(12, plotOutput("test_train_plot"))))
-      
-      out
+      # out <- NULL
+      # out <- list(out,
+      #             fluidRow(box(title = "Set spatial bloking parameters",
+      #                      sliderInput("number_fold", "folds", min=1, max=100, value=5),
+      #                      selectInput("allocation_fold","allocation of blocks to folds",choices = c("random","systematic"),selected="random")),
+      #                      box(title = "Number fold of test dataset",
+      #                          sliderInput("test_fold","Select the number of fold to assign as test dataset",min = 1,max=5,value = 1))) #max=input$number_fold
+      # )
+      # out<-list(out,
+      #           fluidRow(box(title = 'Spatial blocking',
+      #                        plotOutput("sp_block")),
+      #                    box(title = 'Summarise fold',
+      #                        DT::dataTableOutput("sum_fold"))))
+      # out<-list(out,
+      #           fluidRow(column(12, plotOutput("test_train_plot"))))
+      # 
+      # out
     })
     
     observeEvent(input$number_no_block_fold,{
@@ -1400,50 +1255,25 @@ observeEvent(input$file_type,{
       kfold<-dismo::kfold(Specdata,load.occ$number_no_block_fold)
       kfold
     })
-    
-    output$ui_no_block<-renderUI({
-      out <- NULL
-      out <- list(out,
-                  fluidRow(
-                           box(title = "Number of fold",
-                           sliderInput("number_no_block_fold", "Please set the number of fold", min=1, max=100, value=5))))
-      
-      out <- list(out,
-                  fluidRow(actionButton('No_block', 'Apply')))
-      out
-      
-      })
-    
-    
-    output$ui_blockCV_main <- renderUI({
+
+        output$ui_blockCV_main <- renderUI({
       out <- NULL
       val <- obj$cur_selection_results
       ## Categorical (defined in controller/ui_results_imputation.R)
       if (val=="btn_impute_results_1") {
-        return(uiOutput("ui_no_block"))
-      }
-      if (val=="btn_impute_results_2") {
         return(uiOutput("ui_spatial_auto_range"))
       }
-      if (val=="btn_impute_results_3") {
-        return( uiOutput("ui_spatial_blocks"))
+      if (val=="btn_impute_results_2") {
+        return(uiOutput("ui_spatial_blocks"))
       }
-      
-      
     })	
     
     output$ui_blockCV_sidebar_left <- renderUI({
       output$ui_sel_impute_btns <- renderUI({
-        cc1 <- c("Number fold")
-        cc2 <- c("spatial autocorrelation", "spatial blocks")
-        #cc3 <- c("err.missforest", "err.knn", "err.missmda")
-        
-        df <- data.frame(lab=c(cc1,cc2), header=NA)
-        df$header[1] <- "No blocks"
-        df$header[2] <- "Blocks"
-        
-        
-        out <- NULL
+        cc1 <- c("spatial autocorrelation", "spatial blocks")
+        df <- data.frame(lab=c(cc1), header=NA)
+        df$header[1] <- "View"
+         out <- NULL
         for (i in 1:nrow(df)) {
           id <- paste0("btn_impute_results_",i)
           if (obj$cur_selection_results==id) {
@@ -1461,7 +1291,7 @@ observeEvent(input$file_type,{
         out
       })
       # required observers that update the color of the active button!
-      eval(parse(text=genObserver_menus(pat="btn_impute_results_", n=1:3, updateVal="cur_selection_results")))
+      eval(parse(text=genObserver_menus(pat="btn_impute_results_", n=1:2, updateVal="cur_selection_results")))
       return(uiOutput("ui_sel_impute_btns"))
     })
     
@@ -1739,17 +1569,6 @@ observeEvent(input$file_type,{
     model_pred[["threshold"]]<- threshold(evaluate_model[[which.max(auc)]], 'spec_sens')
     model_pred[["PresenceAbsence"]]<-model_pred[["espece"]]>model_pred[["threshold"]]
     model_pred[["ProbaPresence"]]<-TimesRasters(model_pred[["espece"]],model_pred[["PresenceAbsence"]])
-    # data$proba_occ_Bioclim<-model_pred[["espece"]]
-    # data$pre_abs<-model_pred[["PresenceAbsence"]]
-    # output$proba_occ_Bioclim<-renderPlot({
-    #   ggR_P(model_pred[["espece"]])
-    # })
-    # output$pre_ab_map<-renderPlot({
-    #   PASpecies(model_pred[["PresenceAbsence"]])
-    # })
-    # output$timesraster<-renderPlot({
-    #   ggR_P(model_pred[["ProbaPresence"]])
-    # })
     observeEvent(input$probaplot_Bioclim,{
       if(input$probaplot_Bioclim=='Probability of occurence(absence/presence)'){
         title_probaplot_Bioclim<-'Probability of occurence(absence/presence)'
@@ -1807,38 +1626,45 @@ observeEvent(input$file_type,{
     column(width = 12, offset = 0, p("The first step is to choose specie predictors accordint to ENFA or other source, afther apply Bioclim method."), class="wb-header-hint"),
     fluidRow(column(12, h4("Read Me", tipify(icon("info-circle"), title=txt_setup, placement="bottom"), class="wb-block-title"), align="center"))
   )
-  out <- list(out,
-              column(12,offset=0,sidebarPanel(
-                selectInput("choice_block_bioclim", "Please Choose your model technic (without spatial blocking or with spatial blocking)",
-                            c(without="Modelling without spatial blocking",with="Modelling with spatial blocking")
-                ),
-                conditionalPanel(
-                  condition = "input.choice_block_bioclim == 'Modelling without spatial blocking'",
-                  sliderInput("number_no_block_fold_bioclim", "Please set the number of fold", min = 1, max = 100, value = 5)
-                )),align="center"))
-  out <- list(out,
-              fluidRow(
-                box(title = "Specie predictors",
-                    selectInput('var_expl_Bioclim', 'Please select the specie predictors', names(data$Env), multiple = TRUE, selectize = TRUE)),
-                box(title = "Ecological Niche Factor Analysis",
-                    plotOutput("enfa_var"))))
-  
-  out <- list(out,
-              fluidRow(actionButton('Bioclim', 'Apply')))
-  out <- list(out,
-              fluidRow(
-                box(title='Probability of occurence',
-                    selectInput('probaplot_Bioclim', '', c("Probability of occurence(absence/presence)","Presence/Absence","Probability of occurence(presence)"), multiple = FALSE, selectize = TRUE),
-                    plotOutput("proba_occ_Bioclim")),
-                box(title = "Model Evaluation",
-                    selectInput('model_ev_Bioclim', 'Please select the metric to evaluate the model', c("ROC","density","boxplot","kappa","FPR","prevalence"), multiple = FALSE, selectize = TRUE),
-                    plotOutput("eval_Bioclim")),
-                box(title = 'Variable response',
-                    selectInput('response_var_Bioclim', 'Please select the variable to get its ecological response', names(data$enfa), multiple = FALSE, selectize = TRUE),
-                    plotOutput("response_eco")),
-                box(title = 'Variable importance',
-                    plotOutput("var_importance_Bioclim"))))
+  out<-list(out,
+            sidebarPanel(
+              selectInput("choice_block_bioclim", "Please Choose your model technic (without spatial blocking or with spatial blocking)",
+                          c(without="Modelling without spatial blocking",with="Modelling with spatial blocking")
+              ),
+              conditionalPanel(
+                condition = "input.choice_block_bioclim == 'Modelling without spatial blocking'",
+                sliderInput("number_no_block_fold_bioclim", "Please set the number of fold", min = 1, max = 100, value = 5)
+              )),
+              
+            mainPanel(width = 6, tabsetPanel(type = "tabs",
+                                             tabPanel("Specie predictors",
+                                                      selectInput('var_expl_Bioclim', 'Please select the specie predictors', names(data$Env), multiple = TRUE, selectize = TRUE),
+                                                      plotOutput("enfa_var"),
+                                                      myActionButton("Bioclim",label=("Apply Bioclim"), "primary")),
+                                             tabPanel("Map",
+                                                      
+                                                      selectInput('probaplot_Bioclim', '', c("Probability of occurence(absence/presence)","Presence/Absence","Probability of occurence(presence)"), multiple = FALSE, selectize = TRUE),
+                                                      plotOutput("proba_occ_Bioclim")
+                                                      
+                                             ),
+                                             tabPanel("Model Evaluation",
+                                                      selectInput('model_ev_Bioclim', 'Please select the metric to evaluate the model', c("ROC","density","boxplot","kappa","FPR","prevalence"), multiple = FALSE, selectize = TRUE),
+                                                      plotOutput("eval_Bioclim")
+                                                      ),
+                                             tabPanel("Variable response",
+                                                      selectInput('response_var_Bioclim', 'Please select the variable to get its ecological response', names(data$enfa), multiple = FALSE, selectize = TRUE),
+                                                      plotOutput("response_eco")
+                                                      ),
+                                             tabPanel("Variable Importance",
+                                                      plotOutput("var_importance_Bioclim")
+                                                      )
+                                             
+                                             
+            ),
+            id = "tabs")
+  )
   out
+  
   
 })
  ##### end bioclim
@@ -1893,15 +1719,8 @@ observeEvent(input$file_type,{
     model<-list()
     evaluate_model<-list()
     for (i in 1:5) {
-      
-      # testpres <- mydataF[mydataF[fold == i,ncol(mydataF)] == 1, 1:(ncol(mydataF)-1)]
-      # testbackg <- mydataF[mydataF[fold == i,ncol(mydataF)] == 0, 1:(ncol(mydataF)-1)]
-      #dsf<-dsf[dsf[,ncol(dsf)] == 1,]
-      
       p<-Specdata[Specdata[fold != i,ncol(Specdata)] == 1, 1:(ncol(Specdata)-1)]
       a<-Specdata[Specdata[fold != i,ncol(Specdata)] == 0, 1:(ncol(Specdata)-1)]
-      #test<-Specdata[fold == i, ] 
-      
       occtest<-Specdata[Specdata[fold == i,ncol(Specdata)] == 1, 1:(ncol(Specdata)-1)]
       
       bgtest<-Specdata[Specdata[fold == i,ncol(Specdata)] == 0, 1:(ncol(Specdata)-1)]
