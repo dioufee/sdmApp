@@ -937,20 +937,6 @@ observeEvent(input$file_type,{
     })
     
    
-    ###############"################################
-    
-    
-    ###############  end function ######################
-    ############# function ########
-    # dynamically generate inputs (currently used in setup(biomod2)
-    # shinyInput <- function(FUN, len, id, ...) {
-    #   inputs = character(len)
-    #   for (i in seq_len(len)) {
-    #     inputs[i] = as.character(FUN(paste0(id, i), label = NULL, ...))
-    #   }
-    #   inputs
-    # }
-    ###############  end function ######################
     
     
     
