@@ -419,7 +419,7 @@ cirad_hema <-function()
         })
         string_code <- reactive({
           p <- paste("sdmApp_RasterPlot(map)")
-          p <- paste("+ theme(plot.title = element_text(hjust = 0.5, size = 10))")
+          #p <- paste("+ theme(plot.title = element_text(hjust = 0.5, size = 10))")
           if (input$label_axes) 
             p <- paste(p, "+ labs(x = 'input$lab_x', y = 'input$lab_y')")
           if (input$add_title) 
@@ -439,6 +439,7 @@ cirad_hema <-function()
               input$adj_leg != "Keep legend as it is" || 
               input$adj_grd) {
             p <- paste(p, paste(" + theme(\n    ", 
+                                "plot.title = element_text(hjust = 0.5, size = 10),\n    ",
                                 if (input$adj_fnt_sz) 
                                   "axis.title = element_text(size = input$fnt_sz_ttl),\n    ", 
                                 if (input$adj_fnt_sz) 
