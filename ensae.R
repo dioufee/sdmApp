@@ -119,63 +119,12 @@ sdmApp_RasterPlot<-function(rasterLayer){
                                                         ggplot2::aes_string(y = "Northing", x = "Easting", fill = "MAP"))
   # basePlot1<-basePlot1 + ggplot2::theme_bw() + ggplot2::labs(x = "Longitude", y = "Latitude") +
   #   ggtitle(label = names(rasterLayer)) + 
-  basePlot1<-basePlot1 + theme(plot.title = element_text(hjust = 0.5, size = 10)) + 
-    ggplot2::scale_fill_gradientn(name = " ", colours = rev(terrain.colors(10)))
+  #basePlot1<-basePlot1 + theme(plot.title = element_text(hjust = 0.5, size = 10)) + 
+  basePlot1<-basePlot1 + theme(plot.title = element_text(hjust = 0.5, size = 10)) + ggtitle(label = names(rasterLayer)) + ggplot2::scale_fill_gradientn(name = " ", colours = rev(terrain.colors(10)))
   return(basePlot1)
 }
 
-string_code <- reactive({
-  p <- paste("sdmApp_RasterPlot(map) + ")
-  if (input$label_axes) 
-    p <- paste(p, "+ labs(x = 'input$lab_x', y = 'input$lab_y')")
-  if (input$add_title) 
-    p <- paste(p, "+ ggtitle('input$title')")
-  # if (input$adj_leg == "Change legend") 
-  #   p <- paste(p, "+ labs(", if (gg_fil) 
-  #     "fill"
-  #     else "colour", " = 'input$leg_ttl')", 
-  #     sep = "")
-  # if (input$adj_col) 
-  #   p <- paste(p, "+ scale_", if (gg_fil) 
-  #     "fill"
-  #     else "colour", "_brewer(palette = 'input$palet')", 
-  #     sep = "")
-  p <- paste(p, "+", input$theme)
-  if (input$adj_fnt_sz || input$adj_fnt || input$rot_txt || 
-      input$adj_leg != "Keep legend as it is" || 
-      input$adj_grd) {
-    p <- paste(p, paste(" + theme(\n    ", 
-                        if (input$adj_fnt_sz) 
-                          "axis.title = element_text(size = input$fnt_sz_ttl),\n    ", 
-                        if (input$adj_fnt_sz) 
-                          "axis.text = element_text(size = input$fnt_sz_ax),\n    ", 
-                        if (input$adj_fnt) 
-                          "text = element_text(family = 'input$font'),\n    ", 
-                        if (input$rot_txt) 
-                          "axis.text.x = element_text(angle = 45, hjust = 1),\n    ", 
-                        if (input$adj_leg == "Remove legend") 
-                          "legend.position = 'none',\n    ", 
-                        if (input$adj_leg == "Change legend") 
-                          "legend.position = 'input$pos_leg',\n    ", 
-                        if (input$grd_maj) 
-                          "panel.grid.major = element_blank(),\n    ", 
-                        if (input$grd_min) 
-                          "panel.grid.minor = element_blank(),\n    ", 
-                        ")", sep = ""), sep = "")
-  }
-  p <- str_replace_all(p, c(`input\\$lab_x` = as.character(input$lab_x), 
-                            `input\\$lab_y` = as.character(input$lab_y), 
-                            `input\\$title` = as.character(input$title), 
-                            `input\\$palet` = as.character(input$palet), 
-                            `input\\$fnt_sz_ttl` = as.character(input$fnt_sz_ttl), 
-                            `input\\$fnt_sz_ax` = as.character(input$fnt_sz_ax), 
-                            `input\\$font` = as.character(input$font), 
-                            `input\\$leg_ttl` = as.character(input$leg_ttl), 
-                            `input\\$pos_leg` = as.character(input$pos_leg))
-  )
-  p <- str_replace_all(p, ",\n    \\)", "\n  \\)")
-  p
-})
+
 
 PASpecies<-function(rasterLayer){
   samp <- raster::sampleRegular(rasterLayer, 5e+05, asRaster = TRUE)
@@ -467,6 +416,58 @@ cirad_hema <-function()
         output$layerchoice <- renderUI({
           selectInput('layer', 'Variable', as.list(names(data$Env)), multiple = FALSE, selectize = TRUE)
           
+        })
+        string_code <- reactive({
+          p <- paste("sdmApp_RasterPlot(map)")
+          if (input$label_axes) 
+            p <- paste(p, "+ labs(x = 'input$lab_x', y = 'input$lab_y')")
+          if (input$add_title) 
+            p <- paste(p, "+ ggtitle('input$title')")
+          # if (input$adj_leg == "Change legend") 
+          #   p <- paste(p, "+ labs(", if (gg_fil) 
+          #     "fill"
+          #     else "colour", " = 'input$leg_ttl')", 
+          #     sep = "")
+          # if (input$adj_col) 
+          #   p <- paste(p, "+ scale_", if (gg_fil) 
+          #     "fill"
+          #     else "colour", "_brewer(palette = 'input$palet')", 
+          #     sep = "")
+          p <- paste(p, "+", input$theme)
+          if (input$adj_fnt_sz || input$adj_fnt || input$rot_txt || 
+              input$adj_leg != "Keep legend as it is" || 
+              input$adj_grd) {
+            p <- paste(p, paste(" + theme(\n    ", 
+                                if (input$adj_fnt_sz) 
+                                  "axis.title = element_text(size = input$fnt_sz_ttl),\n    ", 
+                                if (input$adj_fnt_sz) 
+                                  "axis.text = element_text(size = input$fnt_sz_ax),\n    ", 
+                                if (input$adj_fnt) 
+                                  "text = element_text(family = 'input$font'),\n    ", 
+                                if (input$rot_txt) 
+                                  "axis.text.x = element_text(angle = 45, hjust = 1),\n    ", 
+                                if (input$adj_leg == "Remove legend") 
+                                  "legend.position = 'none',\n    ", 
+                                if (input$adj_leg == "Change legend") 
+                                  "legend.position = 'input$pos_leg',\n    ", 
+                                if (input$grd_maj) 
+                                  "panel.grid.major = element_blank(),\n    ", 
+                                if (input$grd_min) 
+                                  "panel.grid.minor = element_blank(),\n    ", 
+                                ")", sep = ""), sep = "")
+          }
+          p <- str_replace_all(p, c(`input\\$lab_x` = as.character(input$lab_x), 
+                                    `input\\$lab_y` = as.character(input$lab_y), 
+                                    `input\\$title` = as.character(input$title), 
+                                    `input\\$palet` = as.character(input$palet), 
+                                    `input\\$fnt_sz_ttl` = as.character(input$fnt_sz_ttl), 
+                                    `input\\$fnt_sz_ax` = as.character(input$fnt_sz_ax), 
+                                    `input\\$font` = as.character(input$font), 
+                                    `input\\$leg_ttl` = as.character(input$leg_ttl), 
+                                    `input\\$pos_leg` = as.character(input$pos_leg))
+          )
+          p <- str_replace_all(p, ",\n    \\)", "\n  \\)")
+          p
         })
         output$env <- renderPlot({
           if(!is.null(input$layer)){
