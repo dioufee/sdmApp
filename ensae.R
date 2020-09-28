@@ -120,7 +120,7 @@ sdmApp_RasterPlot<-function(rasterLayer){
   # basePlot1<-basePlot1 + ggplot2::theme_bw() + ggplot2::labs(x = "Longitude", y = "Latitude") +
   #   ggtitle(label = names(rasterLayer)) + 
   #basePlot1<-basePlot1 + theme(plot.title = element_text(hjust = 0.5, size = 10)) + 
-  basePlot1<-basePlot1 + theme(plot.title = element_text(hjust = 0.5, size = 10)) + ggtitle(label = names(rasterLayer)) + ggplot2::scale_fill_gradientn(name = " ", colours = rev(terrain.colors(10)))
+  basePlot1<-basePlot1 + ggtitle(label = names(rasterLayer))  + ggplot2::scale_fill_gradientn(name = " ", colours = rev(terrain.colors(10)))
   return(basePlot1)
 }
 
@@ -419,20 +419,21 @@ cirad_hema <-function()
         })
         string_code <- reactive({
           p <- paste("sdmApp_RasterPlot(map)")
+          p <- paste("+ theme(plot.title = element_text(hjust = 0.5, size = 10))")
           if (input$label_axes) 
             p <- paste(p, "+ labs(x = 'input$lab_x', y = 'input$lab_y')")
           if (input$add_title) 
             p <- paste(p, "+ ggtitle('input$title')")
-          # if (input$adj_leg == "Change legend") 
-          #   p <- paste(p, "+ labs(", if (gg_fil) 
-          #     "fill"
-          #     else "colour", " = 'input$leg_ttl')", 
-          #     sep = "")
-          # if (input$adj_col) 
-          #   p <- paste(p, "+ scale_", if (gg_fil) 
-          #     "fill"
-          #     else "colour", "_brewer(palette = 'input$palet')", 
-          #     sep = "")
+          if (input$adj_leg == "Change legend")
+            p <- paste(p, "+ labs(", if (gg_fil)
+              "fill"
+              else "colour", " = 'input$leg_ttl')",
+              sep = "")
+          if (input$adj_col)
+            p <- paste(p, "+ scale_", if (gg_fil)
+              "fill"
+              else "colour", "_brewer(palette = 'input$palet')",
+              sep = "")
           p <- paste(p, "+", input$theme)
           if (input$adj_fnt_sz || input$adj_fnt || input$rot_txt || 
               input$adj_leg != "Keep legend as it is" || 
