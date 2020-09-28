@@ -120,7 +120,7 @@ sdmApp_RasterPlot<-function(rasterLayer){
   # basePlot1<-basePlot1 + ggplot2::theme_bw() + ggplot2::labs(x = "Longitude", y = "Latitude") +
   #   ggtitle(label = names(rasterLayer)) + 
   #basePlot1<-basePlot1 + theme(plot.title = element_text(hjust = 0.5, size = 10)) + 
-  basePlot1<-basePlot1 + ggtitle(label = names(rasterLayer))  + ggplot2::scale_fill_gradientn(name = " ", colours = rev(terrain.colors(10)))
+  basePlot1<-basePlot1 + ggtitle(label = names(rasterLayer))  #+ ggplot2::scale_fill_gradientn(name = " ", colours = rev(terrain.colors(10)))
   return(basePlot1)
 }
 
@@ -414,23 +414,27 @@ cirad_hema <-function()
           selectInput('layer', 'Variable', as.list(names(data$Env)), multiple = FALSE, selectize = TRUE)
           
         })
+        width <- reactive({
+          input$fig_width
+        })
+        height <- reactive({
+          input$fig_height
+        })
         string_code <- reactive({
           p <- paste("sdmApp_RasterPlot(map)")
+          p <- paste(p, "+ scale_fill_","gradientn", "(name = 'Value',  colours = rev(terrain.colors(10)))",
+                     sep = "")
           #p <- paste("+ theme(plot.title = element_text(hjust = 0.5, size = 10))")
           if (input$label_axes) 
             p <- paste(p, "+ labs(x = 'input$lab_x', y = 'input$lab_y')")
           if (input$add_title) 
             p <- paste(p, "+ ggtitle('input$title')")
           if (input$adj_leg == "Change legend")
-            p <- paste(p, "+ labs(", if (gg_fil)
-              "fill"
-              else "colour", " = 'input$leg_ttl')",
-              sep = "")
-          if (input$adj_col)
-            p <- paste(p, "+ scale_", if (gg_fil)
-              "fill"
-              else "colour", "_brewer(palette = 'input$palet')",
-              sep = "")
+            p <- paste(p, "+ scale_fill_","gradientn", "(name = 'input$leg_ttl',  colours = rev(terrain.colors(10)))",
+                       sep = "")
+          # if (input$adj_col)
+          #   p <- paste(p, "+ scale_fill_","gradientn", "(name = 'input$leg_ttl',  colours = rev(terrain.colors(10)))",
+          #     sep = "")
           p <- paste(p, "+", input$theme)
           if (input$adj_fnt_sz || input$adj_fnt || input$rot_txt || 
               input$adj_leg != "Keep legend as it is" || 
@@ -468,7 +472,7 @@ cirad_hema <-function()
           p <- str_replace_all(p, ",\n    \\)", "\n  \\)")
           p
         })
-        output$env <- renderPlot({
+        output$env <- renderPlot(width = width, height = height,{
           if(!is.null(input$layer)){
             i = as.numeric(which(as.list(names(data$Env)) == input$layer))
             if(data$Env[[i]]@data@isfactor) {
@@ -774,7 +778,7 @@ observeEvent(input$file_type,{
                                                                         strong("Adjust plot size on screen"), 
                                                                         FALSE), conditionalPanel(condition = "input.fig_size", 
                                                                                                  numericInput("fig_height", "Plot height (# pixels): ", 
-                                                                                                              value = 480), numericInput("fig_width", 
+                                                                                                              value = 400), numericInput("fig_width", 
                                                                                                                                          "Plot width (# pixels):", value = 480)), 
                                                   checkboxInput("fig_size_download", 
                                                                 strong("Adjust plot size for download"), 
@@ -1041,14 +1045,6 @@ observeEvent(input$file_type,{
         ),
         id = "tabs")
       )
-      # out <- NULL
-      # out <- list(out,
-      #             fluidRow(column(12, h4("Correlation between rasters"), align="center")),
-      #             fluidRow(box(title = 'Correlation matrix',
-      #                          DT::dataTableOutput("coor_mat")),
-      #                      box(title = 'Correlation Plot',
-      #                          plotOutput("coor_plot"))))
-      # out
     })
     
     Specdata<-reactive({
@@ -1074,12 +1070,7 @@ observeEvent(input$file_type,{
       pr@data$load.occ$spec_select<-as.numeric(pr@data$load.occ$spec_select)
       CENFA::enfa(x = data$Env, s.dat = pr, field = load.occ$spec_select)
     })
-    # enfa_plot<-reactive({
-    #   glc <- glc()
-    #   
-    #   mod.enfa <- mod.enfa()
-    #   CENFA::scatter(x = mod.enfa, yax=3,y = glc,n=nlayers(data$Env),p=1)
-    # })
+ 
     ############ end ui correlation
     
     ####ui enfa
