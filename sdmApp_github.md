@@ -7,29 +7,28 @@ Aboubacar HEMA, Babacar NDAO, Louise LEROUX, Abdoul Aziz DIOUF
 
 Package *sdmApp* contains a shiny app that should help users that are
 non-experts in R (command-line) to apply species distribution models
-techniques. For this reason, users may upload data (rasters and spcies
-occurence) files from different software products into the app and then
-start by working within the interactive, graphical user interface (GUI).
-This document will give an overview of the functionalities of the
+techniques. For this reason, users may upload data files (raster images and species
+occurence) from different software products into the app and then
+start by working through an interactive graphical user interface (GUI).
+This document give you an overview of the functionalities of the
 graphical user interface which can be started with sdmApp(). The main
 functionality of the GUI is:
 
-  - Uploading data (raster and species occurence files)
-  - View correlation between raster
-  - Using Climate Ecological Niche Factors Analysis (CENFA) to select
+  - Upload data (raster and species occurence files)
+  - View correlation between raster images
+  - Use Climate Ecological Niche Factors Analysis (CENFA) to select
     species predictors
-  - The assignment of the spatial blocks to cross-validation folds can
-    be done in two different ways: random and systematic by using
+  - Assignment of the spatial blocks to cross-validation folds that can
+    be done in two different ways: randomly and systematically using the
     blockCV package
-  - Using two methods both spatial blocking strategy and no blocking
+  - Use of the two methods: spatial blocking  and no blocking
   - Export results
-  - Keep reproducibility (R code) by being able do download the
+  - Keep reproducibility (R code) to be able to download the
     underlying code from sdmApp
 
-We now describe the features of the interactive graphical user interface
-in detail. The GUI is separated into 6 main categories, which can be
+The following lines describe the main features of the interactive graphical user interface. The GUI is separated into 6 main categories, which can be
 selected from the navigation bar at the top of the screen. Initially,
-some of these pages will be empty and their content changes once data
+some of these pages will be empty until data
 (both raster and species occurence files) have been uploaded.
 
 <!--![caption](sticker_vstone_07_1.png)-->
@@ -38,7 +37,7 @@ some of these pages will be empty and their content changes once data
 
 This is the first page that is shown once the graphical user interface
 has been started using sdmApp() after loading package sdmApp. On this
-page, the user is presented the information about the package and
+page, users will found information about the package and
 contact or feedback.
 
 <img src="image1.png" align="center" width="500" />
